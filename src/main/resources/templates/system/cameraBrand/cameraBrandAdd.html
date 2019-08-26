@@ -1,0 +1,50 @@
+<html xmlns:x="http://www.w3.org/1999/html">
+<div class="easyui-layout" data-options="fit:true,border:false" >
+    <div data-options="region:'center',border:false" style="overflow: hidden;padding: 3px;" >
+        <form id="cameraBrandAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>代码</td>
+                    <td><input name="brandCode" type="text" placeholder="请输入代码" class="easyui-validatebox" data-options="required:true"></td>
+                    <td>名称</td>
+                    <td><input name="brandName" type="text" placeholder="请输入名称" class="easyui-validatebox" data-options="required:true"></td>
+                </tr>
+                <tr>
+                    <td>主码流</td>
+                    <td colspan = "3"><input name="mainStream" type="text" placeholder="请输入主码流" class="easyui-validatebox" style="width: 400px;" data-options="required:true"></td>
+                </tr>
+                <tr>
+                    <td>辅码流</td>
+                    <td colspan = "3"><input name="subStream" type="text" placeholder="请输入辅码流" class="easyui-validatebox" style="width: 400px;" data-options="required:true"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $('#cameraBrandAddForm').form({
+            url : basePath + '/cameraBrand/add',
+            onSubmit : function() {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success : function(result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.code === 1) {
+                    //之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为list页面预定义好了
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    var form = $('#cameraBrandAddForm');
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>

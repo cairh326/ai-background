@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.dreamlu.system.mapper.CameraMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="net.dreamlu.system.model.Camera">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="location_name" property="locationName" />
+        <result column="brand_id" property="brandId" />
+        <result column="ip" property="ip" />
+        <result column="user" property="user" />
+        <result column="passwd" property="passwd" />
+        <result column="main_stream" property="mainStream" />
+        <result column="sub_stream" property="subStream" />
+        <result column="longitude" property="longitude" />
+        <result column="latitude" property="latitude" />
+        <result column="status" property="status" />
+        <result column="is_online" property="isOnline" />
+        <result column="heart_time" property="heartTime" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+    <update id="updateHeart">
+        update t_camera
+        set is_online = 1,heart_time = now()
+        where code = #{code};
+    </update>
+
+
+    <resultMap id="CameraVoResultMap" type="net.dreamlu.system.vo.CameraVO">
+        <result column="code" property="code" />
+        <result column="location_name" property="locationName" />
+        <result column="brand_code" property="brandCode" />
+        <result column="ip" property="ip" />
+        <result column="user" property="user" />
+        <result column="passwd" property="passwd" />
+        <result column="main_stream" property="mainStream" />
+    </resultMap>
+
+    <select id="getCameraList" resultMap="CameraVoResultMap">
+        SELECT
+            a.`code`,
+            a.location_name,
+            b.brand_code,
+            a.ip,
+            a.user,
+            a.passwd,
+            a.main_stream
+        FROM t_camera a
+        LEFT JOIN t_camera_brand b on b.id = a.brand_id
+        where a.status = 1;
+    </select>
+
+</mapper>

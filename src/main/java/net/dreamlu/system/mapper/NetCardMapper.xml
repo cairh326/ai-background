@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.dreamlu.system.mapper.NetCardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="net.dreamlu.system.model.NetCard">
+        <id column="id" property="id" />
+        <result column="card_name" property="cardName" />
+        <result column="method" property="method" />
+        <result column="dns" property="dns" />
+        <result column="dns2" property="dns2" />
+        <result column="gateway" property="gateway" />
+        <result column="ipv4" property="ipv4" />
+        <result column="isAuto" property="isAuto" />
+        <result column="mac" property="mac" />
+        <result column="mask" property="mask" />
+    </resultMap>
+
+</mapper>

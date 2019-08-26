@@ -1,0 +1,71 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:x="http://www.w3.org/1999/html">
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
+        <form id="netCardEditForm" method="post">
+            <table class="grid">
+                <input name="id" type="hidden" th:value="${netCard.id}">
+                <input name="cardName" type="hidden" th:value="${netCard.cardName}">
+                <input name="mac" type="hidden" th:value="${netCard.mac}">
+                <input name="method" type="hidden" th:value="${netCard.method}">
+                <tr>
+                    <td>名称</td>
+                    <td><input name="cardName" type="text" class="easyui-validatebox" disabled="disabled" th:value="${netCard.cardName}"></td>
+                    <td>ip获取方式</td>
+                    <td><input name="method" type="text" class="easyui-validatebox" disabled="disabled" th:value="${netCard.method}"></td>
+                </tr>
+                <tr>
+                    <td>mac地址</td>
+                    <td><input name="mac" type="text" disabled="disabled" class="easyui-validatebox" th:value="${netCard.mac}"></td>
+                    <td>IPV4地址</td>
+                    <td><input name="ipv4" type="text"  class="easyui-validatebox" th:value="${netCard.ipv4}"></td>
+                </tr>
+                <tr>
+                    <td>子网掩码</td>
+                    <td><input name="mask" type="text" class="easyui-validatebox" th:value="${netCard.mask}"></td>
+                    <td>默认网关</td>
+                    <td><input name="gateway" type="text" class="easyui-validatebox" th:value="${netCard.gateway}"></td>
+                </tr>
+                <tr>
+                    <td>首选DNS</td>
+                    <td><input name="dns" type="text" class="easyui-validatebox" th:value="${netCard.dns}"></td>
+                    <td>备用DNS</td>
+                    <td><input name="dns2" type="text" class="easyui-validatebox" th:value="${netCard.dns2}"></td>
+                </tr>
+                <tr>
+                    <td>开机自启动</td>
+                    <td>
+                        <x:select id="netCardEditAuto" name="isAuto" type="netCardAuto" class="easyui-combobox" data-options="width:160,height:29,editable:false,panelHeight:'auto'"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $('#netCardEditForm').form({
+            url : basePath + '/netCard/edit',
+            onSubmit : function() {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success : function(result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.code === 1) {
+                    //之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为list页面预定义好了
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    var form = $('#netCardEditForm');
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+        $("#netCardEditAuto").val('[[${netCard.isAuto}]]');
+    });
+</script>
