@@ -15,9 +15,6 @@ Date: 2019-08-26 14:04:28
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
--- Table structure for t_admin
--- ----------------------------
 DROP TABLE IF EXISTS `t_admin`;
 CREATE TABLE `t_admin` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -41,9 +38,8 @@ CREATE TABLE `t_admin` (
 -- ----------------------------
 -- Records of t_admin
 -- ----------------------------
-INSERT INTO `t_admin` VALUES ('1', 'admin', '', '管理员', '596392912@qq.com', '15321111111', '0', '20', '0', '1', '0', '1', '2019-08-10 16:00:01', '2019-08-24 19:34:59');
-INSERT INTO `t_admin` VALUES ('2', 'test', '$2aI73HdMcNGgbtpprvPl0W8eDosoiXs9u9W84SbIz3dgGjjIWb64Lu2', '测试', '596392912@qq.com', '', '0', '20', '1', '6', '0', '1', '2019-08-10 16:00:01', '2019-08-24 18:39:05');
-
+INSERT INTO `t_admin` VALUES ('1', 'admin', '$2a$04$a3MluO3/wNYNtQjACPK63uIG1JgyJhNWhNw0BrEuSI7ciBf5gn.FO', '管理员', '596392912@qq.com', '15321111111', '0', '0', '0', '1', '0', '1', '2018-01-30 10:08:41', '2018-04-16 14:59:38');
+INSERT INTO `t_admin` VALUES ('2', 'test', '$2a$04$e97c8S9vHrS6BE1diTj4FO4nrK6X2Vi2jhJLGYBnqpt65u95TcbBK', '测试', '596392912@qq.com', '', '0', '0', '1', '6', '0', '1', '2018-03-28 04:26:31', '2019-08-26 15:00:03');
 -- ----------------------------
 -- Table structure for t_admin_role
 -- ----------------------------
@@ -444,6 +440,10 @@ CREATE TABLE `persistent_logins` (
   `last_used` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `dream`.`persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES ('admin', 'Xs3MX7/oR5IHVkhfPzaU7Q==', 'fBaJukt6mEliHgdISFiM+Q==', '2019-08-26 14:59:54');
+
 
 -- ----------------------------
 -- Table structure for t_sys_log
