@@ -1,0 +1,167 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false">
+        <table id="cameraDataGrid" data-options="fit:true,border:false"></table>
+    </div>
+</div>
+<div id="cameraToolbar" style="display: none;">
+    <div th:if="${@sec.hasPermission('camera:add')}">
+        <a onclick="cameraAddFun();" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'glyphicon-plus icon-green'">添加</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var cameraDataGrid;
+    $(function() {
+            cameraDataGrid = $('#cameraDataGrid').datagrid({
+            url : basePath + '/camera/dataGrid',
+            striped : true,
+            rownumbers : true,
+            pagination : true,
+            singleSelect : true,
+            idField : 'id',
+            sortName : 'id',
+            sortOrder : 'asc',
+            pageSize : 20,
+            pageList : [ 10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+            frozenColumns : [ [ {
+                title : 'id',
+                field : 'id',
+                width : 40,
+                hidden : true
+            } ] ],
+            columns : [ [  {
+                width : 120,
+                title : '编码',
+                field : 'code'
+            }, {
+                width : 180,
+                title : '点位名称',
+                field : 'locationName'
+            },  {
+                width : 120,
+                title : 'ip',
+                field : 'ip'
+            },{
+                width : 40,
+                title : '状态',
+                field : 'status',
+                formatter : function(value, row, index) {
+                    return columnsDictFormat("dbStatus", value);
+                }
+            }, {
+                width : 80,
+                title : '是否在线',
+                field : 'isOnline',
+                formatter : function(value, row, index) {
+                    return columnsDictFormat("online", value);
+                }
+            }, {
+                width : 140,
+                title : '心跳时间',
+                field : 'heartTime'
+            }, {
+                width : 140,
+                title : '创建时间',
+                field : 'createTime',
+                sortable : true
+            }, {
+                width : 200,
+                field : 'action',
+                title : '操作',
+                formatter : function(value, row, index) {
+                    var str = '';
+                    /*[# th:if="${@sec.hasPermission('camera:edit')}"]*/
+                    str += $.formatString('<a href="javascript:void(0)" class="camera-easyui-linkbutton-edit" data-options="plain:true,iconCls:\'glyphicon-pencil icon-blue\'" onclick="cameraEditFun(\'{0}\');" >编辑</a>', row.id);
+                    /*[/]*/
+                    /*[# th:if="${@sec.hasPermission('camera:delete')}"]*/
+                    str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                    str += $.formatString('<a href="javascript:void(0)" class="camera-easyui-linkbutton-del" data-options="plain:true,iconCls:\'glyphicon-remove icon-red\'" onclick="cameraDeleteFun(\'{0}\');" >删除</a>', row.id);
+                    /*[/]*/
+                    return str;
+                }
+            } ] ],
+            onLoadSuccess:function(data){
+                $('.camera-easyui-linkbutton-edit').linkbutton({text:'编辑'});
+                $('.camera-easyui-linkbutton-del').linkbutton({text:'删除'});
+            },
+            toolbar : '#cameraToolbar'
+        });
+    });
+
+    /**
+     * 添加框
+     * @param url
+     */
+    function cameraAddFun() {
+        parent.$.modalDialog({
+            title : '添加',
+            width : 520,
+            height : 380,
+            href : basePath + '/camera/addPage',
+            buttons : [ {
+                text : '确定',
+                handler : function() {
+                    parent.$.modalDialog.openner_dataGrid = cameraDataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                    var f = parent.$.modalDialog.handler.find('#cameraAddForm');
+                    f.submit();
+                }
+            } ]
+        });
+    }
+
+    /**
+     * 编辑
+     */
+    function cameraEditFun(id) {
+        if (id == undefined) {
+            var rows = cameraDataGrid.datagrid('getSelections');
+            id = rows[0].id;
+        } else {
+            cameraDataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+        }
+        parent.$.modalDialog({
+            title : '编辑',
+            width : 520,
+            height : 470,
+            href : basePath + '/camera/editPage?id=' + id,
+            buttons : [ {
+                text : '确定',
+                handler : function() {
+                    //因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                    parent.$.modalDialog.openner_dataGrid = cameraDataGrid;
+                    var f = parent.$.modalDialog.handler.find('#cameraEditForm');
+                    f.submit();
+                }
+            } ]
+        });
+    }
+
+    /**
+     * 删除
+     */
+    function cameraDeleteFun(id) {
+        if (id == undefined) {//点击右键菜单才会触发这个
+            var rows = cameraDataGrid.datagrid('getSelections');
+            id = rows[0].id;
+        } else {//点击操作里面的删除图标会触发这个
+            cameraDataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+        }
+        parent.$.messager.confirm('询问', '您是否要删除当前摄像机配置？', function(b) {
+            if (b) {
+                progressLoad();
+                $.post(basePath + '/camera/delete', {
+                    id : id
+                }, function(result) {
+                    if (result.code === 1) {
+                        parent.$.messager.alert('提示', result.msg, 'info');
+                        cameraDataGrid.datagrid('reload');
+                    }else{
+                        parent.$.messager.alert('错误', result.msg, 'error');
+                    }
+                    progressClose();
+                }, 'JSON');
+            }
+        });
+    }
+</script>
