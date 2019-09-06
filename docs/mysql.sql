@@ -161,12 +161,6 @@ CREATE TABLE `t_net_card` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='网卡信息';
 
 -- ----------------------------
--- Records of t_net_card
--- ----------------------------
-INSERT INTO `t_net_card` VALUES ('1', 'lo', 'loopback', '', '', '', '127.0.0.1', '1', '00:00:00:00:00:00', '');
-INSERT INTO `t_net_card` VALUES ('2', 'eth0', 'static', '114.114.114.114', '', '192.168.10.1', '192.168.10.170', '1', '94:C6:91:38:0C:D1', '255.255.255.0');
-
--- ----------------------------
 -- Table structure for t_organization
 -- ----------------------------
 DROP TABLE IF EXISTS `t_organization`;
