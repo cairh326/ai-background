@@ -35,6 +35,12 @@
                     <td colspan = "3"><input name="subStream" type="text" class="easyui-validatebox" readonly="readonly" style="width: 400px;" th:value="${camera.subStream}"></td>
                 </tr>
                 <tr>
+                    <td>人脸宽度</td>
+                    <td><input name="faceWidth" type="text" placeholder="请输入人脸宽度"  class="easyui-validatebox" data-options="required:true" th:value="${camera.faceWidth}"></td>
+                    <td>人脸高度</td>
+                    <td><input name="faceHeight" type="text" placeholder="请输入人脸高度" class="easyui-validatebox" data-options="required:true"  th:value="${camera.faceHeight}"></td>
+                </tr>
+                <tr>
                     <td>经度</td>
                     <td><input name="longitude" type="text"  class="easyui-validatebox" th:value="${camera.longitude}"></td>
                     <td>纬度</td>

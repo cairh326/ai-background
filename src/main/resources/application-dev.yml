@@ -10,3 +10,8 @@ spring:
       port: 6379
       password: 123456
       database: 1
+
+ai:
+  network:
+    ip: 192.168.10.170
+    port: 9090

@@ -13,6 +13,8 @@
         <result column="passwd" property="passwd" />
         <result column="main_stream" property="mainStream" />
         <result column="sub_stream" property="subStream" />
+        <result column="face_width" property="faceWidth" />
+        <result column="face_height" property="faceHeight" />
         <result column="longitude" property="longitude" />
         <result column="latitude" property="latitude" />
         <result column="status" property="status" />
@@ -23,6 +25,7 @@
         <result column="update_by" property="updateBy" />
         <result column="update_time" property="updateTime" />
     </resultMap>
+
     <update id="updateHeart">
         update t_camera
         set is_online = 1,heart_time = now()
@@ -38,6 +41,8 @@
         <result column="user" property="user" />
         <result column="passwd" property="passwd" />
         <result column="main_stream" property="mainStream" />
+        <result column="face_width" property="faceWidth" />
+        <result column="face_height" property="faceHeight" />
     </resultMap>
 
     <select id="getCameraList" resultMap="CameraVoResultMap">
@@ -48,7 +53,9 @@
             a.ip,
             a.user,
             a.passwd,
-            a.main_stream
+            a.main_stream,
+            a.face_width,
+            a.face_height
         FROM t_camera a
         LEFT JOIN t_camera_brand b on b.id = a.brand_id
         where a.status = 1;

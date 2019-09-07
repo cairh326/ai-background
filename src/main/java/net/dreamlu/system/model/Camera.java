@@ -70,6 +70,16 @@ public class Camera implements Serializable {
     private String subStream;
 
 	/**
+	 * 人脸宽度
+	 */
+	private Integer faceWidth;
+
+	/**
+	 * 人脸高度
+	 */
+	private Integer faceHeight;
+
+	/**
 	 * 经度
 	 */
 	private String longitude;

@@ -2,6 +2,8 @@ package net.dreamlu.system.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
+import net.dreamlu.common.annotation.SysLog;
 import net.dreamlu.common.result.EasyPage;
 import net.dreamlu.common.result.PageVO;
 import net.dreamlu.system.model.Config;
@@ -13,6 +15,7 @@ import net.dreamlu.system.vo.CardVO;
 import net.dreamlu.system.vo.NetworkResponse;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,12 +37,17 @@ import java.util.List;
  * @author Administrator
  * @since 2019-08-21
  */
+@Slf4j
 @Controller
 @RequestMapping("/netCard")
 public class NetCardController extends BaseController {
 
     @Autowired private INetCardService netCardService;
     @Autowired private IConfigService configService;
+    @Value(value = "${ai.network.ip}")
+	String networkIp;
+    @Value(value = "${ai.network.port}")
+	String networkPort;
 
     @GetMapping("/manager")
     @PreAuthorize("@sec.hasPermission('netCard:manager')")
@@ -51,13 +59,15 @@ public class NetCardController extends BaseController {
     @PreAuthorize("@sec.hasPermission('netCard:dataGrid')")
     @ResponseBody
     public EasyPage<NetCard> dataGrid(NetCard netCard, PageVO pageVO) {
-		Config config = configService.getByName("netCardPort");
-		String url = NetCardConstant.NET_CARD_GET.replace(NetCardConstant.PLACE_HOLDER,config.getCValue());
+		String url = NetCardConstant.NET_CARD_GET.replace(NetCardConstant.PLACE_HOLDER_IP,networkIp)
+			.replace(NetCardConstant.PLACE_HOLDER_PORT,networkPort);
 		NetworkResponse response = WebHttpUtil.invokeAPI(url,RestConstant.HTTPGET
 			,null, null, null, null, null
 			, ContentType.APPLICATION_JSON, null, null, 2000, NetworkResponse.class);
 		for(CardVO vo : response.getData()){
-			if(StringUtils.isBlank(vo.getMethod())){
+			if(StringUtils.isBlank(vo.getMethod())
+				|| vo.getMethod().equals(NetCardConstant.IGNORE_METHOD)
+				|| vo.getIpv4().equals(NetCardConstant.IGNORE_IP)){
 				continue;
 			}
 			String mac = vo.getMac();
@@ -97,6 +107,7 @@ public class NetCardController extends BaseController {
     /**
      * 编辑-网卡信息
      */
+    @SysLog(value = "编辑-网卡信息")
     @PostMapping("/edit")
     @PreAuthorize("@sec.hasPermission('netCard:edit')")
     @ResponseBody
@@ -105,22 +116,20 @@ public class NetCardController extends BaseController {
 		BeanUtils.copyProperties(netCard,vo);
 		vo.setIs_auto(netCard.getIsAuto() == 1 ? true : false);
 		vo.setName(netCard.getCardName());
-		boolean isUpdate = netCardService.updateById(netCard);
-		if(isUpdate){
-			new Thread() {
-				@Override
-				public void run() {
-					Config config = configService.getByName("netCardPort");
-					String url = NetCardConstant.NET_CARD_SET.replace(NetCardConstant.PLACE_HOLDER,config.getCValue());
-					System.out.println(url);
-					System.out.println(JsonUtils.toJson(vo));
-					String responce = WebHttpUtil.invokeAPI(url,RestConstant.HTTPPOST
-						,null, JsonUtils.toJson(vo), null, null, null
-						, ContentType.APPLICATION_JSON, null, null, 2000, String.class);
-					System.out.println(responce);
-				}
-			}.start();
-		}
-        return status(isUpdate);
+		//先调用set
+		String url = NetCardConstant.NET_CARD_SET.replace(NetCardConstant.PLACE_HOLDER_IP,networkIp)
+			.replace(NetCardConstant.PLACE_HOLDER_PORT,networkPort);
+		NetworkResponse response =  WebHttpUtil.invokeAPI(url,RestConstant.HTTPPOST
+			,null, JsonUtils.toJson(vo), null, null, null
+			, ContentType.APPLICATION_JSON, null, null, 2000, NetworkResponse.class);
+		System.out.println(response);
+		//先调用save
+		url = NetCardConstant.NET_CARD_SAVE.replace(NetCardConstant.PLACE_HOLDER_IP,networkIp)
+			.replace(NetCardConstant.PLACE_HOLDER_PORT,networkPort);
+		response = WebHttpUtil.invokeAPI(url,RestConstant.HTTPGET
+			,null, null, null, null, null
+			, ContentType.APPLICATION_JSON, null, null, 2000, NetworkResponse.class);
+		System.out.println(response);
+        return status(true);
     }
 }

@@ -78,6 +78,8 @@ CREATE TABLE `t_camera` (
   `passwd` varchar(20) NOT NULL COMMENT '密码',
   `main_stream` varchar(300) NOT NULL COMMENT '主码流',
   `sub_stream` varchar(300) NOT NULL COMMENT '辅码流',
+  `face_width` int(3) DEFAULT NULL COMMENT '人脸宽度',
+  `face_height` int(3) DEFAULT NULL COMMENT '人脸高度',
   `longitude` varchar(20) DEFAULT NULL COMMENT '经度',
   `latitude` varchar(20) DEFAULT NULL COMMENT '纬度',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态[0:失效,1:正常]',
@@ -136,11 +138,6 @@ CREATE TABLE `t_config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='参数配置';
 
--- ----------------------------
--- Records of t_config
--- ----------------------------
-INSERT INTO `t_config` VALUES ('1', 'netCardPort', '9090', '网卡配置端口', 'admin', '2019-08-22 11:05:08', 'admin', '2019-08-24 16:12:51');
-INSERT INTO `t_config` VALUES ('2', 'cloudConfig', 'http://ip:port#key#ps', '中心平台云配置,按#分割', 'admin', '2019-08-24 20:57:16', null, null);
 
 -- ----------------------------
 -- Table structure for t_net_card
@@ -154,7 +151,7 @@ CREATE TABLE `t_net_card` (
   `dns2` varchar(150) DEFAULT NULL COMMENT '备用DNS',
   `gateway` varchar(150) DEFAULT NULL COMMENT '默认网关',
   `ipv4` varchar(100) DEFAULT NULL COMMENT 'IPV4地址',
-  `isAuto` tinyint(1) DEFAULT NULL COMMENT '开机自启动',
+  `is_auto` tinyint(1) DEFAULT NULL COMMENT '开机自启动',
   `mac` varchar(100) DEFAULT NULL COMMENT 'mac地址',
   `mask` varchar(100) DEFAULT NULL COMMENT '子网掩码',
   PRIMARY KEY (`id`)

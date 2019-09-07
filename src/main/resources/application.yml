@@ -34,6 +34,8 @@ spring:
       config: classpath:config/ehcache.xml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  config: classpath:log/log4j2-${mica.env}.xml
 
 ## mybatis
 mybatis-plus:
