@@ -10,11 +10,31 @@ Target Server Type    : MYSQL
 Target Server Version : 50519
 File Encoding         : 65001
 
-Date: 2019-08-26 14:04:28
+Date: 2019-09-09 15:49:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
+-- ----------------------------
+-- Table structure for persistent_logins
+-- ----------------------------
+DROP TABLE IF EXISTS `persistent_logins`;
+CREATE TABLE `persistent_logins` (
+  `username` varchar(64) NOT NULL,
+  `series` varchar(64) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `last_used` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`series`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of persistent_logins
+-- ----------------------------
+INSERT INTO `persistent_logins` VALUES ('admin', 'C9TlXMjnD+ELejwk7Q5cpQ==', '2UtlLoGoii0MgRANs98a/g==', '2019-09-09 15:46:49');
+
+-- ----------------------------
+-- Table structure for t_admin
+-- ----------------------------
 DROP TABLE IF EXISTS `t_admin`;
 CREATE TABLE `t_admin` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -40,6 +60,7 @@ CREATE TABLE `t_admin` (
 -- ----------------------------
 INSERT INTO `t_admin` VALUES ('1', 'admin', '$2a$04$a3MluO3/wNYNtQjACPK63uIG1JgyJhNWhNw0BrEuSI7ciBf5gn.FO', '管理员', '596392912@qq.com', '15321111111', '0', '0', '0', '1', '0', '1', '2018-01-30 10:08:41', '2018-04-16 14:59:38');
 INSERT INTO `t_admin` VALUES ('2', 'test', '$2a$04$e97c8S9vHrS6BE1diTj4FO4nrK6X2Vi2jhJLGYBnqpt65u95TcbBK', '测试', '596392912@qq.com', '', '0', '0', '1', '6', '0', '1', '2018-03-28 04:26:31', '2019-08-26 15:00:03');
+
 -- ----------------------------
 -- Table structure for t_admin_role
 -- ----------------------------
@@ -50,7 +71,7 @@ CREATE TABLE `t_admin_role` (
   `role_id` int(11) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`id`),
   KEY `idx_user_role_ids` (`admin_id`,`role_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COMMENT='用户角色';
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8 COMMENT='用户角色';
 
 -- ----------------------------
 -- Records of t_admin_role
@@ -59,10 +80,40 @@ INSERT INTO `t_admin_role` VALUES ('90', '1', '1');
 INSERT INTO `t_admin_role` VALUES ('91', '1', '2');
 INSERT INTO `t_admin_role` VALUES ('92', '1', '7');
 INSERT INTO `t_admin_role` VALUES ('93', '1', '8');
-INSERT INTO `t_admin_role` VALUES ('89', '2', '8');
+INSERT INTO `t_admin_role` VALUES ('94', '2', '8');
 INSERT INTO `t_admin_role` VALUES ('63', '13', '2');
 INSERT INTO `t_admin_role` VALUES ('64', '14', '7');
 INSERT INTO `t_admin_role` VALUES ('53', '15', '8');
+
+-- ----------------------------
+-- Table structure for t_box
+-- ----------------------------
+DROP TABLE IF EXISTS `t_box`;
+CREATE TABLE `t_box` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `name` varchar(40) NOT NULL COMMENT '名称',
+  `serial_no` varchar(80) DEFAULT NULL COMMENT '序列号',
+  `upper_limit` int(3) DEFAULT NULL COMMENT '路数上线',
+  `lng` varchar(20) DEFAULT NULL COMMENT '经度',
+  `lat` varchar(20) DEFAULT NULL COMMENT '纬度',
+  `platform_address` varchar(40) DEFAULT NULL COMMENT '平台地址',
+  `platform_port` varchar(40) DEFAULT NULL COMMENT '平台端口',
+  `platform_user` varchar(40) DEFAULT NULL COMMENT '平台用户',
+  `platform_pwd` varchar(40) DEFAULT NULL COMMENT '平台密码',
+  `mq_address` varchar(40) DEFAULT NULL COMMENT 'MQ地址',
+  `mq_port` varchar(40) DEFAULT NULL COMMENT 'MQ端口',
+  `mq_user` varchar(40) DEFAULT NULL COMMENT 'MQ用户',
+  `mq_pwd` varchar(40) DEFAULT NULL COMMENT 'MQ密码',
+  `version` varchar(80) DEFAULT NULL COMMENT '系统版本',
+  `binding_status` tinyint(2) DEFAULT NULL COMMENT '绑定状态',
+  `bingding_time` datetime DEFAULT NULL COMMENT '绑定时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='本机配置';
+
+-- ----------------------------
+-- Records of t_box
+-- ----------------------------
+INSERT INTO `t_box` VALUES ('1', '初始化名称', null, null, null, null, null, null, null, null, null, null, null, null, 'V20190909', '0', null);
 
 -- ----------------------------
 -- Table structure for t_camera
@@ -80,8 +131,8 @@ CREATE TABLE `t_camera` (
   `sub_stream` varchar(300) NOT NULL COMMENT '辅码流',
   `face_width` int(3) DEFAULT NULL COMMENT '人脸宽度',
   `face_height` int(3) DEFAULT NULL COMMENT '人脸高度',
-  `longitude` varchar(20) DEFAULT NULL COMMENT '经度',
-  `latitude` varchar(20) DEFAULT NULL COMMENT '纬度',
+  `lng` varchar(20) DEFAULT NULL COMMENT '经度',
+  `lat` varchar(20) DEFAULT NULL COMMENT '纬度',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态[0:失效,1:正常]',
   `is_online` tinyint(2) NOT NULL COMMENT '是否在线',
   `heart_time` datetime DEFAULT NULL COMMENT '最后心跳',
@@ -91,11 +142,7 @@ CREATE TABLE `t_camera` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ind_camera_code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='摄像机配置';
-
--- ----------------------------
--- Records of t_camera
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='摄像机配置';
 
 -- ----------------------------
 -- Table structure for t_camera_brand
@@ -136,8 +183,18 @@ CREATE TABLE `t_config` (
   `update_by` varchar(10) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='参数配置';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='参数配置';
 
+-- ----------------------------
+-- Records of t_config
+-- ----------------------------
+INSERT INTO `t_config` VALUES ('1', 'platformIp', '', '平台ip', 'admin', '2019-09-07 19:24:29', null, null);
+INSERT INTO `t_config` VALUES ('2', 'platformUser', '', '平台登录用户', 'admin', '2019-09-07 19:25:04', null, null);
+INSERT INTO `t_config` VALUES ('3', 'platformPwd', '', '平台登录密码', 'admin', '2019-09-07 19:25:23', null, null);
+INSERT INTO `t_config` VALUES ('4', 'mqServerIp', '', 'MQ服务端ip', 'admin', '2019-09-07 19:26:08', null, null);
+INSERT INTO `t_config` VALUES ('5', 'mqServerPort', '', 'mq服务端端口', 'admin', '2019-09-07 19:26:37', null, null);
+INSERT INTO `t_config` VALUES ('6', 'mqServerUser', '', 'MQ服务端用户', 'admin', '2019-09-07 19:27:15', null, null);
+INSERT INTO `t_config` VALUES ('7', 'mqServerPwd', '', 'MQ服务端密码', 'admin', '2019-09-07 19:27:43', null, null);
 
 -- ----------------------------
 -- Table structure for t_net_card
@@ -155,7 +212,12 @@ CREATE TABLE `t_net_card` (
   `mac` varchar(100) DEFAULT NULL COMMENT 'mac地址',
   `mask` varchar(100) DEFAULT NULL COMMENT '子网掩码',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='网卡信息';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网卡信息';
+
+-- ----------------------------
+-- Records of t_net_card
+-- ----------------------------
+INSERT INTO `t_net_card` VALUES ('1', 'eth0', 'static', '114.114.114.114', '', '192.168.10.1', '192.168.10.170', '1', '94:C6:91:38:0C:D1', '255.255.255.0');
 
 -- ----------------------------
 -- Table structure for t_organization
@@ -203,7 +265,7 @@ CREATE TABLE `t_resource` (
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8 COMMENT='资源';
+) ENGINE=InnoDB AUTO_INCREMENT=258 DEFAULT CHARSET=utf8 COMMENT='资源';
 
 -- ----------------------------
 -- Records of t_resource
@@ -256,6 +318,7 @@ INSERT INTO `t_resource` VALUES ('253', '删除', 'config:delete', '/config/dele
 INSERT INTO `t_resource` VALUES ('254', '网卡配置', 'netCard:manager', '/netCard/manager', null, '网卡配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
 INSERT INTO `t_resource` VALUES ('255', '列表', 'netCard:dataGrid', '/netCard/dataGrid', 'ajax', '网卡配置列表', 'glyphicon-th-list', '254', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
 INSERT INTO `t_resource` VALUES ('256', '编辑', 'netCard:edit', '/netCard/edit', 'ajax', '网卡配置编辑', 'glyphicon-pencil', '254', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
+INSERT INTO `t_resource` VALUES ('257', '本机配置', '', '/boxEdit.html', 'ajax', null, 'glyphicon-list-alt', '221', '2', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:18');
 
 -- ----------------------------
 -- Table structure for t_role
@@ -291,59 +354,60 @@ CREATE TABLE `t_role_resource` (
   `resource_id` int(11) NOT NULL COMMENT '资源id',
   PRIMARY KEY (`id`),
   KEY `idx_role_resource_ids` (`role_id`,`resource_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=921 DEFAULT CHARSET=utf8 COMMENT='角色资源';
+) ENGINE=InnoDB AUTO_INCREMENT=970 DEFAULT CHARSET=utf8 COMMENT='角色资源';
 
 -- ----------------------------
 -- Records of t_role_resource
 -- ----------------------------
-INSERT INTO `t_role_resource` VALUES ('893', '1', '1');
-INSERT INTO `t_role_resource` VALUES ('910', '1', '11');
-INSERT INTO `t_role_resource` VALUES ('904', '1', '12');
-INSERT INTO `t_role_resource` VALUES ('899', '1', '13');
-INSERT INTO `t_role_resource` VALUES ('894', '1', '14');
-INSERT INTO `t_role_resource` VALUES ('911', '1', '111');
-INSERT INTO `t_role_resource` VALUES ('912', '1', '112');
-INSERT INTO `t_role_resource` VALUES ('913', '1', '113');
-INSERT INTO `t_role_resource` VALUES ('914', '1', '114');
-INSERT INTO `t_role_resource` VALUES ('905', '1', '121');
-INSERT INTO `t_role_resource` VALUES ('906', '1', '122');
-INSERT INTO `t_role_resource` VALUES ('907', '1', '123');
-INSERT INTO `t_role_resource` VALUES ('908', '1', '124');
-INSERT INTO `t_role_resource` VALUES ('909', '1', '125');
-INSERT INTO `t_role_resource` VALUES ('900', '1', '131');
-INSERT INTO `t_role_resource` VALUES ('901', '1', '132');
-INSERT INTO `t_role_resource` VALUES ('902', '1', '133');
-INSERT INTO `t_role_resource` VALUES ('903', '1', '134');
-INSERT INTO `t_role_resource` VALUES ('895', '1', '141');
-INSERT INTO `t_role_resource` VALUES ('896', '1', '142');
-INSERT INTO `t_role_resource` VALUES ('897', '1', '143');
-INSERT INTO `t_role_resource` VALUES ('898', '1', '144');
-INSERT INTO `t_role_resource` VALUES ('868', '1', '221');
-INSERT INTO `t_role_resource` VALUES ('867', '1', '226');
-INSERT INTO `t_role_resource` VALUES ('887', '1', '227');
-INSERT INTO `t_role_resource` VALUES ('888', '1', '229');
-INSERT INTO `t_role_resource` VALUES ('889', '1', '235');
-INSERT INTO `t_role_resource` VALUES ('890', '1', '236');
-INSERT INTO `t_role_resource` VALUES ('891', '1', '237');
-INSERT INTO `t_role_resource` VALUES ('892', '1', '238');
-INSERT INTO `t_role_resource` VALUES ('869', '1', '239');
-INSERT INTO `t_role_resource` VALUES ('870', '1', '240');
-INSERT INTO `t_role_resource` VALUES ('871', '1', '241');
-INSERT INTO `t_role_resource` VALUES ('872', '1', '242');
-INSERT INTO `t_role_resource` VALUES ('873', '1', '243');
-INSERT INTO `t_role_resource` VALUES ('874', '1', '244');
-INSERT INTO `t_role_resource` VALUES ('875', '1', '245');
-INSERT INTO `t_role_resource` VALUES ('876', '1', '246');
-INSERT INTO `t_role_resource` VALUES ('877', '1', '247');
-INSERT INTO `t_role_resource` VALUES ('878', '1', '248');
-INSERT INTO `t_role_resource` VALUES ('879', '1', '249');
-INSERT INTO `t_role_resource` VALUES ('880', '1', '250');
-INSERT INTO `t_role_resource` VALUES ('881', '1', '251');
-INSERT INTO `t_role_resource` VALUES ('882', '1', '252');
-INSERT INTO `t_role_resource` VALUES ('883', '1', '253');
-INSERT INTO `t_role_resource` VALUES ('884', '1', '254');
-INSERT INTO `t_role_resource` VALUES ('886', '1', '255');
-INSERT INTO `t_role_resource` VALUES ('885', '1', '256');
+INSERT INTO `t_role_resource` VALUES ('948', '1', '1');
+INSERT INTO `t_role_resource` VALUES ('965', '1', '11');
+INSERT INTO `t_role_resource` VALUES ('959', '1', '12');
+INSERT INTO `t_role_resource` VALUES ('954', '1', '13');
+INSERT INTO `t_role_resource` VALUES ('949', '1', '14');
+INSERT INTO `t_role_resource` VALUES ('966', '1', '111');
+INSERT INTO `t_role_resource` VALUES ('967', '1', '112');
+INSERT INTO `t_role_resource` VALUES ('968', '1', '113');
+INSERT INTO `t_role_resource` VALUES ('969', '1', '114');
+INSERT INTO `t_role_resource` VALUES ('960', '1', '121');
+INSERT INTO `t_role_resource` VALUES ('961', '1', '122');
+INSERT INTO `t_role_resource` VALUES ('962', '1', '123');
+INSERT INTO `t_role_resource` VALUES ('963', '1', '124');
+INSERT INTO `t_role_resource` VALUES ('964', '1', '125');
+INSERT INTO `t_role_resource` VALUES ('955', '1', '131');
+INSERT INTO `t_role_resource` VALUES ('956', '1', '132');
+INSERT INTO `t_role_resource` VALUES ('957', '1', '133');
+INSERT INTO `t_role_resource` VALUES ('958', '1', '134');
+INSERT INTO `t_role_resource` VALUES ('950', '1', '141');
+INSERT INTO `t_role_resource` VALUES ('951', '1', '142');
+INSERT INTO `t_role_resource` VALUES ('952', '1', '143');
+INSERT INTO `t_role_resource` VALUES ('953', '1', '144');
+INSERT INTO `t_role_resource` VALUES ('922', '1', '221');
+INSERT INTO `t_role_resource` VALUES ('921', '1', '226');
+INSERT INTO `t_role_resource` VALUES ('941', '1', '227');
+INSERT INTO `t_role_resource` VALUES ('943', '1', '229');
+INSERT INTO `t_role_resource` VALUES ('944', '1', '235');
+INSERT INTO `t_role_resource` VALUES ('945', '1', '236');
+INSERT INTO `t_role_resource` VALUES ('946', '1', '237');
+INSERT INTO `t_role_resource` VALUES ('947', '1', '238');
+INSERT INTO `t_role_resource` VALUES ('923', '1', '239');
+INSERT INTO `t_role_resource` VALUES ('924', '1', '240');
+INSERT INTO `t_role_resource` VALUES ('925', '1', '241');
+INSERT INTO `t_role_resource` VALUES ('926', '1', '242');
+INSERT INTO `t_role_resource` VALUES ('927', '1', '243');
+INSERT INTO `t_role_resource` VALUES ('928', '1', '244');
+INSERT INTO `t_role_resource` VALUES ('929', '1', '245');
+INSERT INTO `t_role_resource` VALUES ('930', '1', '246');
+INSERT INTO `t_role_resource` VALUES ('931', '1', '247');
+INSERT INTO `t_role_resource` VALUES ('932', '1', '248');
+INSERT INTO `t_role_resource` VALUES ('933', '1', '249');
+INSERT INTO `t_role_resource` VALUES ('934', '1', '250');
+INSERT INTO `t_role_resource` VALUES ('935', '1', '251');
+INSERT INTO `t_role_resource` VALUES ('936', '1', '252');
+INSERT INTO `t_role_resource` VALUES ('937', '1', '253');
+INSERT INTO `t_role_resource` VALUES ('938', '1', '254');
+INSERT INTO `t_role_resource` VALUES ('940', '1', '255');
+INSERT INTO `t_role_resource` VALUES ('939', '1', '256');
+INSERT INTO `t_role_resource` VALUES ('942', '1', '257');
 INSERT INTO `t_role_resource` VALUES ('437', '2', '1');
 INSERT INTO `t_role_resource` VALUES ('438', '2', '13');
 INSERT INTO `t_role_resource` VALUES ('439', '2', '131');
@@ -396,7 +460,7 @@ CREATE TABLE `t_sys_dict` (
   `seq` tinyint(2) NOT NULL DEFAULT '0' COMMENT '排序',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='字典';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='字典';
 
 -- ----------------------------
 -- Records of t_sys_dict
@@ -419,22 +483,8 @@ INSERT INTO `t_sys_dict` VALUES ('15', 'netCardAuto', '开机自启动-是', '1'
 INSERT INTO `t_sys_dict` VALUES ('16', 'netCardAuto', '开机自启动-否', '0', '否', '0', '2019-08-10 16:00:01');
 INSERT INTO `t_sys_dict` VALUES ('17', 'online', '摄像机是否在线-在线', '1', '在线', '1', '2019-08-10 16:00:01');
 INSERT INTO `t_sys_dict` VALUES ('18', 'online', '摄像机是否在线-不在线', '0', '不在线', '0', '2019-08-10 16:00:01');
-
--- ----------------------------
--- Table structure for persistent_logins
--- ----------------------------
-DROP TABLE IF EXISTS `persistent_logins`;
-CREATE TABLE `persistent_logins` (
-  `username` varchar(64) NOT NULL,
-  `series` varchar(64) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `last_used` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`series`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-INSERT INTO `dream`.`persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES ('admin', 'Xs3MX7/oR5IHVkhfPzaU7Q==', 'fBaJukt6mEliHgdISFiM+Q==', '2019-08-26 14:59:54');
-
+INSERT INTO `t_sys_dict` VALUES ('19', 'bindingStatus', '盒子绑定状态-已绑定', '1', '已绑定', '1', '2019-09-09 15:37:46');
+INSERT INTO `t_sys_dict` VALUES ('20', 'bindingStatus', '盒子绑定状态-未绑定', '0', '未绑定', '0', '2019-09-09 15:38:22');
 
 -- ----------------------------
 -- Table structure for t_sys_log
@@ -450,4 +500,5 @@ CREATE TABLE `t_sys_log` (
   `client_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '客户端ip',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+

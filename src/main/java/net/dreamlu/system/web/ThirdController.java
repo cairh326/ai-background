@@ -24,24 +24,13 @@ import net.dreamlu.common.base.BaseController;
 @AllArgsConstructor
 public class ThirdController extends BaseController {
 	@Autowired private final ICameraService cameraService;
-	@Autowired private final IConfigService configService;
 
-    @GetMapping("/cameraList")
+    @GetMapping("/config")
 	@ResponseBody
     public ThirdCameraListVO getCameraList() {
 		ThirdCameraListVO vo = new ThirdCameraListVO();
     	try {
 			vo.setData(cameraService.getCameraList());
-
-			QueryWrapper<Config> qw1 = new QueryWrapper<>();
-			qw1.eq("c_name", "cloudConfig");
-			Config config = configService.getOne(qw1);
-			if(config != null){
-				String[] strList = config.getCValue().split("#");
-				vo.setCloudAddress(strList[0]);
-				vo.setCloudKey(strList[1]);
-				vo.setCloudPs(strList[2]);
-			}
 		}catch (Exception ex){
 			vo.setSuccess(Boolean.FALSE);
 			vo.setMessage(ex.getMessage());
@@ -49,12 +38,12 @@ public class ThirdController extends BaseController {
         return vo;
     }
 
-	@GetMapping("/updateCamera")
+	@GetMapping("/keepLive")
 	@ResponseBody
-    public ThirdBaseVO updateCamera(String code){
+    public ThirdBaseVO updateCamera(String serialNo){
 		ThirdBaseVO thirdBaseVO = new ThirdBaseVO();
 		try {
-			cameraService.updateHeart(code);
+			cameraService.updateHeart(serialNo);
 		}catch (Exception ex){
 			thirdBaseVO.setSuccess(Boolean.FALSE);
 			thirdBaseVO.setMessage(ex.getMessage());

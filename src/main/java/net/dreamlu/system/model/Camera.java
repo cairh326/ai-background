@@ -82,12 +82,12 @@ public class Camera implements Serializable {
 	/**
 	 * 经度
 	 */
-	private String longitude;
+	private String lng;
 
 	/**
 	 * 纬度
 	 */
-	private String latitude;
+	private String lat;
 
     /**
      * 状态[0:失效,1:正常]

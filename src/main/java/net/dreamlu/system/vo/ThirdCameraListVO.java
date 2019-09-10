@@ -9,16 +9,5 @@ import net.dreamlu.system.util.StringUtils;
  */
 @Data
 public class ThirdCameraListVO extends ThirdBaseVO {
-
-	public ThirdCameraListVO(){
-		super();
-		this.cloudAddress = StringUtils.EMPTY;
-		this.cloudKey = StringUtils.EMPTY;
-		this.cloudPs = StringUtils.EMPTY;
-	}
-
-	private String cloudAddress;
-	private String cloudKey;
-	private String cloudPs;
 	private Object data;
 }

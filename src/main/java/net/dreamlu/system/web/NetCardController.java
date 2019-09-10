@@ -43,7 +43,6 @@ import java.util.List;
 public class NetCardController extends BaseController {
 
     @Autowired private INetCardService netCardService;
-    @Autowired private IConfigService configService;
     @Value(value = "${ai.network.ip}")
 	String networkIp;
     @Value(value = "${ai.network.port}")
@@ -64,6 +63,7 @@ public class NetCardController extends BaseController {
 		NetworkResponse response = WebHttpUtil.invokeAPI(url,RestConstant.HTTPGET
 			,null, null, null, null, null
 			, ContentType.APPLICATION_JSON, null, null, 2000, NetworkResponse.class);
+		List<NetCard> cardList = new ArrayList<>();
 		for(CardVO vo : response.getData()){
 			if(StringUtils.isBlank(vo.getMethod())
 				|| vo.getMethod().equals(NetCardConstant.IGNORE_METHOD)
@@ -87,10 +87,11 @@ public class NetCardController extends BaseController {
 			}else{
 				netCardService.updateById(card);
 			}
+			cardList.add(card);
 		}
-        QueryWrapper<NetCard> ew = new QueryWrapper<>();
         Page<NetCard> pages = pageVO.toPage();
-        netCardService.page(pages, ew);
+        pages.setRecords(cardList);
+        pages.setTotal(cardList.size());
         return EasyPage.of(pages);
     }
 

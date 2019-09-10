@@ -15,8 +15,8 @@
         <result column="sub_stream" property="subStream" />
         <result column="face_width" property="faceWidth" />
         <result column="face_height" property="faceHeight" />
-        <result column="longitude" property="longitude" />
-        <result column="latitude" property="latitude" />
+        <result column="lng" property="lng" />
+        <result column="lat" property="lat" />
         <result column="status" property="status" />
         <result column="is_online" property="isOnline" />
         <result column="heart_time" property="heartTime" />
@@ -34,8 +34,7 @@
 
 
     <resultMap id="CameraVoResultMap" type="net.dreamlu.system.vo.CameraVO">
-        <result column="code" property="code" />
-        <result column="location_name" property="locationName" />
+        <result column="code" property="serialNo" />
         <result column="brand_code" property="brandCode" />
         <result column="ip" property="ip" />
         <result column="user" property="user" />
@@ -48,7 +47,6 @@
     <select id="getCameraList" resultMap="CameraVoResultMap">
         SELECT
             a.`code`,
-            a.location_name,
             b.brand_code,
             a.ip,
             a.user,

@@ -1,0 +1,121 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:x="http://www.w3.org/1999/html">
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
+        <form id="boxEditForm" method="post">
+            <table class="grid" style="width: 650px;">
+                <input name="id" type="hidden">
+                <input name="version" type="hidden">
+                <input name="serialNo" type="hidden">
+                <input name="upperLimit" type="hidden">
+                <input name="bindingStatus" type="hidden">
+                <input name="bindingTime" type="hidden">
+                <tr>
+                    <td>名称</td>
+                    <td><input name="name" type="text" placeholder="请输入名称" class="easyui-validatebox" style="width: 200px;" data-options="required:true"></td>
+                    <td>系统版本</td>
+                    <td><input name="version" type="text" class="easyui-validatebox" style="width: 200px;" disabled="disabled"></td>
+                </tr>
+                <tr>
+                    <td>序列号</td>
+                    <td><input name="serialNo" type="text" disabled="disabled" class="easyui-validatebox" style="width: 200px;"></td>
+                    <td>路数上线</td>
+                    <td><input name="upperLimit" type="text" disabled="disabled" class="easyui-validatebox" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td>经度</td>
+                    <td><input name="lng" type="text"  class="easyui-validatebox" style="width: 200px;"></td>
+                    <td>纬度</td>
+                    <td><input name="lat" type="text"  class="easyui-validatebox" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td>绑定状态</td>
+                    <td><x:select name="bindingStatus" class="easyui-combobox" type="bindingStatus" data-options="width:200,height:29,editable:false,panelHeight:'auto'" disabled/></td>
+                    <td>绑定时间</td>
+                    <td><input name="bindingTime" type="text" class="easyui-validatebox" style="width: 200px;" disabled="disabled"></td>
+                </tr>
+                <tr>
+                    <td>平台地址</td>
+                    <td><input name="platformAddress" type="text" class="easyui-validatebox" style="width: 200px;"></td>
+                    <td>平台端口</td>
+                    <td><input name="platformPort" type="text"  class="easyui-validatebox" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td>平台用户</td>
+                    <td><input name="platformUser" type="text" class="easyui-validatebox" style="width: 200px;"></td>
+                    <td>平台密码</td>
+                    <td><input name="platformPwd" type="text" class="easyui-validatebox" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td>MQ地址</td>
+                    <td><input name="mqAddress" type="text" class="easyui-validatebox" style="width: 200px;"></td>
+                    <td>MQ端口</td>
+                    <td><input name="mqPort" type="text" class="easyui-validatebox" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td>MQ用户</td>
+                    <td><input name="mqUser" type="text" class="easyui-validatebox" style="width: 200px;"></td>
+                    <td>MQ密码</td>
+                    <td><input name="mqPwd" type="text"  class="easyui-validatebox" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="保存"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function loadData() {
+        $.ajax({
+            type :'GET',
+            dataType: "json",
+            url:basePath + '/box/get',
+            success:function (res) {
+                $("input[name='id']").val(res.id);
+                $("input[name='name']").val(res.name);
+                $("input[name='version']").val(res.version);
+                $("input[name='serialNo']").val(res.serialNo);
+                $("input[name='upperLimit']").val(res.upperLimit);
+                $("input[name='lng']").val(res.lng);
+                $("input[name='lat']").val(res.lat);
+                $("input[name='bindingStatus']").val(res.bindingStatus);
+                $("input[name='bindingTime']").val(res.bindingTime);
+                $("input[name='platformAddress']").val(res.platformAddress);
+                $("input[name='platformPort']").val(res.platformPort);
+                $("input[name='platformUser']").val(res.platformUser);
+                $("input[name='platformPwd']").val(res.platformPwd);
+                $("input[name='mqAddress']").val(res.mqAddress);
+                $("input[name='mqPort']").val(res.mqPort);
+                $("input[name='mqUser']").val(res.mqUser);
+                $("input[name='mqPwd']").val(res.mqPwd);
+            }
+        });
+    }
+
+    $(function() {
+        loadData();
+
+        $('#boxEditForm').form({
+            url : basePath + '/box/edit',
+            onSubmit : function() {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success : function(result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.code === 1) {
+                    parent.$.messager.alert('提示', '操作成功', 'info');
+                    loadData();
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>

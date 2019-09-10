@@ -8,8 +8,7 @@ import lombok.Data;
  */
 @Data
 public class CameraVO {
-	private String code;
-	private String locationName;
+	private String serialNo;
 	private String brandCode;
 	private String ip;
 	private String user;

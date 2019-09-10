@@ -9,8 +9,8 @@
                 <input name="createBy" type="hidden" th:value="${camera.createBy}">
                 <input name="createTime" type="hidden">
                 <tr>
-                    <td>编码</td>
-                    <td><input name="code" type="text" placeholder="请输入编码" class="easyui-validatebox" data-options="required:true" th:value="${camera.code}"></td>
+                    <td>序列号</td>
+                    <td><input name="code" type="text" placeholder="请输入序列号" class="easyui-validatebox" data-options="required:true" th:value="${camera.code}"></td>
                     <td>点位名称</td>
                     <td><input name="locationName" type="text" placeholder="请输入点位名称" class="easyui-validatebox" data-options="required:true" th:value="${camera.locationName}"></td>
                 </tr>
@@ -42,9 +42,9 @@
                 </tr>
                 <tr>
                     <td>经度</td>
-                    <td><input name="longitude" type="text"  class="easyui-validatebox" th:value="${camera.longitude}"></td>
+                    <td><input name="lng" type="text"  class="easyui-validatebox" th:value="${camera.lng}"></td>
                     <td>纬度</td>
-                    <td><input name="latitude" type="text" class="easyui-validatebox"  th:value="${camera.latitude}"></td>
+                    <td><input name="lat" type="text" class="easyui-validatebox"  th:value="${camera.lat}"></td>
                 </tr>
                 <tr>
                     <td>状态</td>

@@ -66,4 +66,8 @@ public class CommonController extends BaseController {
 		return "system/common/icons";
 	}
 
+	@GetMapping("boxEdit.html")
+	public String boxEdit(){
+		return "system/box/boxEdit";
+	}
 }
