@@ -3,11 +3,11 @@ package net.dreamlu.system.vo;
 import lombok.Data;
 
 /**
- * camera vo
+ * device vo
  * @author Administrator
  */
 @Data
-public class CameraVO {
+public class DeviceVO {
 	private String serialNo;
 	private String brandCode;
 	private String ip;

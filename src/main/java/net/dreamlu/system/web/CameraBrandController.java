@@ -1,14 +1,12 @@
 package net.dreamlu.system.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import net.dreamlu.common.result.PageVO;
-import net.dreamlu.common.result.Tree;
 import net.dreamlu.mica.core.result.R;
-import net.dreamlu.system.model.Camera;
+import net.dreamlu.system.model.Device;
 import net.dreamlu.system.model.CameraBrand;
 import net.dreamlu.system.service.ICameraBrandService;
-import net.dreamlu.system.service.ICameraService;
+import net.dreamlu.system.service.IDeviceService;
 import net.dreamlu.system.vo.BrandVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +33,7 @@ import java.util.List;
 @RequestMapping("/cameraBrand")
 public class CameraBrandController extends BaseController {
     @Autowired private ICameraBrandService cameraBrandService;
-    @Autowired private ICameraService cameraService;
+    @Autowired private IDeviceService cameraService;
 
     @GetMapping("/manager")
     @PreAuthorize("@sec.hasPermission('cameraBrand:manager')")
@@ -80,8 +78,8 @@ public class CameraBrandController extends BaseController {
     @PreAuthorize("@sec.hasPermission('cameraBrand:delete')")
     @ResponseBody
     public R<Object> delete(CameraBrand cameraBrand) {
-		LambdaQueryWrapper<Camera> wrapper = new LambdaQueryWrapper<>();
-		wrapper.eq(Camera::getBrandId,cameraBrand.getId());
+		LambdaQueryWrapper<Device> wrapper = new LambdaQueryWrapper<>();
+		wrapper.eq(Device::getBrandId,cameraBrand.getId());
 		int count = cameraService.list(wrapper).size();
 		if(count > 0){
 			return status(false,"存在引用该配置的摄像头,不允许删除");

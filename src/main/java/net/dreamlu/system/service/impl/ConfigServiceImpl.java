@@ -22,6 +22,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> implements IConfigService {
+	/**
+	 * 根据名称获取参数配置
+	 * @param name 名称
+	 * @return config
+	 */
 	@Override
 	public Config getByName(String name) {
 		if(StringUtils.isBlank(name)){

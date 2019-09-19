@@ -11,15 +11,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
- * 摄像机配置
+ * 前端设备配置
  * </p>
  *
  * @author Administrator
  * @since 2019-08-13
  */
 @Data
-@TableName("t_camera")
-public class Camera implements Serializable {
+@TableName("t_device")
+public class Device implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -30,22 +30,27 @@ public class Camera implements Serializable {
     private Integer id;
 
     /**
-     * 编码
+     * 设备序列号
      */
     private String code;
 
-    /**
-     * 点位名称
-     */
-    private String locationName;
+	/**
+	 * 设备类型
+	 */
+	private String type;
 
     /**
-     * 品牌
+     * 设备名称
+     */
+    private String name;
+
+    /**
+     * 设备品牌
      */
     private Integer brandId;
 
     /**
-     * ip
+     * 设备ip
      */
     private String ip;
 
@@ -88,11 +93,6 @@ public class Camera implements Serializable {
 	 * 纬度
 	 */
 	private String lat;
-
-    /**
-     * 状态[0:失效,1:正常]
-     */
-    private Integer status;
 
 	/**
 	 * 是否在线[0:不在线,1:在线]

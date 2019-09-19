@@ -2,7 +2,7 @@
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
         <form id="boxEditForm" method="post">
-            <table class="grid" style="width: 650px;">
+            <table class="grid" style="width: 890px;">
                 <input name="id" type="hidden">
                 <input name="version" type="hidden">
                 <input name="serialNo" type="hidden">
@@ -10,55 +10,55 @@
                 <input name="bindingStatus" type="hidden">
                 <input name="bindingTime" type="hidden">
                 <tr>
-                    <td>名称</td>
+                    <td style="width: 100px;">名称</td>
                     <td><input name="name" type="text" placeholder="请输入名称" class="easyui-validatebox" style="width: 200px;" data-options="required:true"></td>
-                    <td>系统版本</td>
+                    <td style="width: 100px;">系统版本</td>
                     <td><input name="version" type="text" class="easyui-validatebox" style="width: 200px;" disabled="disabled"></td>
                 </tr>
                 <tr>
-                    <td>序列号</td>
+                    <td style="width: 100px;">序列号</td>
                     <td><input name="serialNo" type="text" disabled="disabled" class="easyui-validatebox" style="width: 200px;"></td>
-                    <td>路数上线</td>
+                    <td style="width: 100px;">路数上线</td>
                     <td><input name="upperLimit" type="text" disabled="disabled" class="easyui-validatebox" style="width: 200px;"></td>
                 </tr>
                 <tr>
-                    <td>经度</td>
+                    <td style="width: 100px;">经度</td>
                     <td><input name="lng" type="text"  class="easyui-validatebox" style="width: 200px;"></td>
-                    <td>纬度</td>
+                    <td style="width: 100px;">纬度</td>
                     <td><input name="lat" type="text"  class="easyui-validatebox" style="width: 200px;"></td>
                 </tr>
                 <tr>
-                    <td>绑定状态</td>
-                    <td><x:select name="bindingStatus" class="easyui-combobox" type="bindingStatus" data-options="width:200,height:29,editable:false,panelHeight:'auto'" disabled/></td>
-                    <td>绑定时间</td>
+                    <td style="width: 100px;">绑定状态</td>
+                    <td><x:select name="bindingStatus" class="easyui-combobox" type="bindingStatus" data-options="width:200,height:29,editable:false,panelHeight:'auto'"/></td>
+                    <td style="width: 100px;">绑定时间</td>
                     <td><input name="bindingTime" type="text" class="easyui-validatebox" style="width: 200px;" disabled="disabled"></td>
                 </tr>
                 <tr>
-                    <td>平台地址</td>
+                    <td style="width: 100px;">平台地址</td>
                     <td><input name="platformAddress" type="text" class="easyui-validatebox" style="width: 200px;"></td>
-                    <td>平台端口</td>
+                    <td style="width: 100px;">平台端口</td>
                     <td><input name="platformPort" type="text"  class="easyui-validatebox" style="width: 200px;"></td>
                 </tr>
                 <tr>
-                    <td>平台用户</td>
+                    <td style="width: 100px;">平台用户</td>
                     <td><input name="platformUser" type="text" class="easyui-validatebox" style="width: 200px;"></td>
-                    <td>平台密码</td>
+                    <td style="width: 100px;">平台密码</td>
                     <td><input name="platformPwd" type="text" class="easyui-validatebox" style="width: 200px;"></td>
                 </tr>
                 <tr>
-                    <td>MQ地址</td>
+                    <td style="width: 100px;">MQ地址</td>
                     <td><input name="mqAddress" type="text" class="easyui-validatebox" style="width: 200px;"></td>
-                    <td>MQ端口</td>
+                    <td style="width: 100px;">MQ端口</td>
                     <td><input name="mqPort" type="text" class="easyui-validatebox" style="width: 200px;"></td>
                 </tr>
                 <tr>
-                    <td>MQ用户</td>
+                    <td style="width: 100px;">MQ用户</td>
                     <td><input name="mqUser" type="text" class="easyui-validatebox" style="width: 200px;"></td>
-                    <td>MQ密码</td>
+                    <td style="width: 100px;">MQ密码</td>
                     <td><input name="mqPwd" type="text"  class="easyui-validatebox" style="width: 200px;"></td>
                 </tr>
                 <tr>
-                    <td><input type="submit" value="保存"></td>
+                    <td style="width: 100px;"><input type="submit" value="保存"></td>
                 </tr>
             </table>
         </form>

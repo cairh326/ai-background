@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.dreamlu.system.mapper.CameraMapper">
+<mapper namespace="net.dreamlu.system.mapper.DeviceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="net.dreamlu.system.model.Camera">
+    <resultMap id="BaseResultMap" type="net.dreamlu.system.model.Device">
         <id column="id" property="id" />
         <result column="code" property="code" />
-        <result column="location_name" property="locationName" />
+        <result column="type" property="type" />
+        <result column="name" property="name" />
         <result column="brand_id" property="brandId" />
         <result column="ip" property="ip" />
         <result column="user" property="user" />
@@ -17,7 +18,6 @@
         <result column="face_height" property="faceHeight" />
         <result column="lng" property="lng" />
         <result column="lat" property="lat" />
-        <result column="status" property="status" />
         <result column="is_online" property="isOnline" />
         <result column="heart_time" property="heartTime" />
         <result column="create_by" property="createBy" />
@@ -33,7 +33,7 @@
     </update>
 
 
-    <resultMap id="CameraVoResultMap" type="net.dreamlu.system.vo.CameraVO">
+    <resultMap id="DeviceVoResultMap" type="net.dreamlu.system.vo.DeviceVO">
         <result column="code" property="serialNo" />
         <result column="brand_code" property="brandCode" />
         <result column="ip" property="ip" />
@@ -44,7 +44,7 @@
         <result column="face_height" property="faceHeight" />
     </resultMap>
 
-    <select id="getCameraList" resultMap="CameraVoResultMap">
+    <select id="getDeviceList" resultMap="DeviceVoResultMap">
         SELECT
             a.`code`,
             b.brand_code,
@@ -54,9 +54,8 @@
             a.main_stream,
             a.face_width,
             a.face_height
-        FROM t_camera a
-        LEFT JOIN t_camera_brand b on b.id = a.brand_id
-        where a.status = 1;
+        FROM t_device a
+        LEFT JOIN t_camera_brand b on b.id = a.brand_id;
     </select>
 
 </mapper>

@@ -1,12 +1,12 @@
 package net.dreamlu.system.web;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
-import net.dreamlu.system.model.Config;
-import net.dreamlu.system.service.ICameraService;
-import net.dreamlu.system.service.IConfigService;
+import net.dreamlu.system.service.IBoxService;
+import net.dreamlu.system.service.IDeviceService;
+import net.dreamlu.system.vo.BoxVO;
 import net.dreamlu.system.vo.ThirdBaseVO;
-import net.dreamlu.system.vo.ThirdCameraListVO;
+import net.dreamlu.system.vo.ThirdConfigVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import net.dreamlu.common.base.BaseController;
@@ -23,14 +23,18 @@ import net.dreamlu.common.base.BaseController;
 @RequestMapping("/third")
 @AllArgsConstructor
 public class ThirdController extends BaseController {
-	@Autowired private final ICameraService cameraService;
+	@Autowired private final IDeviceService deviceService;
+	@Autowired private final IBoxService boxService;
 
     @GetMapping("/config")
 	@ResponseBody
-    public ThirdCameraListVO getCameraList() {
-		ThirdCameraListVO vo = new ThirdCameraListVO();
+    public ThirdConfigVO getCameraList() {
+		ThirdConfigVO vo = new ThirdConfigVO();
     	try {
-			vo.setData(cameraService.getCameraList());
+			vo.setData(deviceService.getDeviceList());
+			BoxVO boxVO = new BoxVO();
+			BeanUtils.copyProperties(boxService.getCurrentBox(),boxVO);
+			vo.setBox(boxVO);
 		}catch (Exception ex){
 			vo.setSuccess(Boolean.FALSE);
 			vo.setMessage(ex.getMessage());
@@ -40,10 +44,10 @@ public class ThirdController extends BaseController {
 
 	@GetMapping("/keepLive")
 	@ResponseBody
-    public ThirdBaseVO updateCamera(String serialNo){
+    public ThirdBaseVO updateDevice(String serialNo){
 		ThirdBaseVO thirdBaseVO = new ThirdBaseVO();
 		try {
-			cameraService.updateHeart(serialNo);
+			deviceService.updateHeart(serialNo);
 		}catch (Exception ex){
 			thirdBaseVO.setSuccess(Boolean.FALSE);
 			thirdBaseVO.setMessage(ex.getMessage());

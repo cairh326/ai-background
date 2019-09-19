@@ -42,11 +42,8 @@ import java.util.List;
 @RequestMapping("/netCard")
 public class NetCardController extends BaseController {
 
-    @Autowired private INetCardService netCardService;
-    @Value(value = "${ai.network.ip}")
-	String networkIp;
-    @Value(value = "${ai.network.port}")
-	String networkPort;
+	@Autowired private IConfigService configService;
+	@Autowired private INetCardService netCardService;
 
     @GetMapping("/manager")
     @PreAuthorize("@sec.hasPermission('netCard:manager')")
@@ -58,8 +55,9 @@ public class NetCardController extends BaseController {
     @PreAuthorize("@sec.hasPermission('netCard:dataGrid')")
     @ResponseBody
     public EasyPage<NetCard> dataGrid(NetCard netCard, PageVO pageVO) {
-		String url = NetCardConstant.NET_CARD_GET.replace(NetCardConstant.PLACE_HOLDER_IP,networkIp)
-			.replace(NetCardConstant.PLACE_HOLDER_PORT,networkPort);
+		String url = NetCardConstant.NET_CARD_GET
+			.replace(NetCardConstant.PLACE_HOLDER_IP,configService.getByName("NetCardServiceIp").getCValue())
+			.replace(NetCardConstant.PLACE_HOLDER_PORT,configService.getByName("NetCardServicePort").getCValue());
 		NetworkResponse response = WebHttpUtil.invokeAPI(url,RestConstant.HTTPGET
 			,null, null, null, null, null
 			, ContentType.APPLICATION_JSON, null, null, 2000, NetworkResponse.class);
@@ -117,16 +115,20 @@ public class NetCardController extends BaseController {
 		BeanUtils.copyProperties(netCard,vo);
 		vo.setIs_auto(netCard.getIsAuto() == 1 ? true : false);
 		vo.setName(netCard.getCardName());
+		String netCardServiceIp = configService.getByName("NetCardServiceIp").getCValue();
+		String netCardServicePort = configService.getByName("NetCardServicePort").getCValue();
 		//先调用set
-		String url = NetCardConstant.NET_CARD_SET.replace(NetCardConstant.PLACE_HOLDER_IP,networkIp)
-			.replace(NetCardConstant.PLACE_HOLDER_PORT,networkPort);
+		String url = NetCardConstant.NET_CARD_SET
+			.replace(NetCardConstant.PLACE_HOLDER_IP,netCardServiceIp)
+			.replace(NetCardConstant.PLACE_HOLDER_PORT,netCardServicePort);
 		NetworkResponse response =  WebHttpUtil.invokeAPI(url,RestConstant.HTTPPOST
 			,null, JsonUtils.toJson(vo), null, null, null
 			, ContentType.APPLICATION_JSON, null, null, 2000, NetworkResponse.class);
 		System.out.println(response);
 		//先调用save
-		url = NetCardConstant.NET_CARD_SAVE.replace(NetCardConstant.PLACE_HOLDER_IP,networkIp)
-			.replace(NetCardConstant.PLACE_HOLDER_PORT,networkPort);
+		url = NetCardConstant.NET_CARD_SAVE
+			.replace(NetCardConstant.PLACE_HOLDER_IP,netCardServiceIp)
+			.replace(NetCardConstant.PLACE_HOLDER_PORT,netCardServicePort);
 		response = WebHttpUtil.invokeAPI(url,RestConstant.HTTPGET
 			,null, null, null, null, null
 			, ContentType.APPLICATION_JSON, null, null, 2000, NetworkResponse.class);

@@ -1,51 +1,49 @@
 <html xmlns:x="http://www.w3.org/1999/html">
 <div class="easyui-layout" data-options="fit:true,border:false" >
     <div data-options="region:'center',border:false" style="overflow: hidden;padding: 3px;" >
-        <form id="cameraAddForm" method="post">
+        <form id="deviceAddForm" method="post">
             <table class="grid">
                 <tr>
-                    <td>序列号</td>
-                    <td><input name="code" type="text" placeholder="请输入序列号" class="easyui-validatebox" data-options="required:true"></td>
-                    <td>点位名称</td>
-                    <td><input name="locationName" type="text" placeholder="请输入点位名称" class="easyui-validatebox" data-options="required:true"></td>
+                    <td>设备序列号</td>
+                    <td><input name="code" type="text" class="easyui-validatebox" data-options="required:true"></td>
+                </tr>
+                <tr>
+                    <td>设备类型</td>
+                    <td><x:select name="type" class="easyui-combobox" type="deviceType" data-options="width:160,height:29,editable:false,panelHeight:'auto'"/></td>
+                    <td>设备名称</td>
+                    <td><input name="name" type="text" class="easyui-validatebox" data-options="required:true"></td>
                 </tr>
                 <tr>
                     <td>品牌</td>
-                    <td><select id="cameraBrandSelect" name="brandId" class="easyui-combobox" data-options="required:true"></select></td>
-                    <td>ip</td>
-                    <td><input name="ip" type="text" placeholder="请输入ip" class="easyui-validatebox" data-options="required:true"></td>
+                    <td><select id="cameraBrandSelect" name="brandId" class="easyui-combobox"></select></td>
+                    <td>设备ip</td>
+                    <td><input name="ip" type="text" class="easyui-validatebox" data-options="required:true"></td>
                 </tr>
                 <tr>
                     <td>用户名</td>
-                    <td><input name="user" type="text" placeholder="请输入用户名" class="easyui-validatebox" data-options="required:true"></td>
+                    <td><input name="user" type="text" class="easyui-validatebox"></td>
                     <td>密码</td>
-                    <td><input name="passwd" type="text" placeholder="请输入密码" class="easyui-validatebox" data-options="required:true"></td>
+                    <td><input name="passwd" type="text" class="easyui-validatebox"></td>
                 </tr>
                 <tr>
                     <td>主码流</td>
-                    <td colspan = "3"><input name="mainStream" type="text" readonly="readonly" style="width: 400px;" class="easyui-validatebox"></td>
+                    <td colspan = "3"><input name="mainStream" type="text" readonly="readonly" style="width: 420px;" class="easyui-validatebox"></td>
                 </tr>
                 <tr>
                     <td>辅码流</td>
-                    <td colspan = "3"><input name="subStream" type="text" readonly="readonly" style="width: 400px;" class="easyui-validatebox"></td>
+                    <td colspan = "3"><input name="subStream" type="text" readonly="readonly" style="width: 420px;" class="easyui-validatebox"></td>
                 <tr>
                 <tr>
                     <td>人脸宽度</td>
-                    <td><input name="faceWidth" value="160" placeholder="请输入人脸宽度" type="text" class="easyui-validatebox" data-options="required:true"></td>
+                    <td><input name="faceWidth" value="160" type="text" class="easyui-validatebox" data-options="required:true"></td>
                     <td>人脸高度</td>
-                    <td><input name="faceHeight" value="160" placeholder="请输入人脸高度" type="text" class="easyui-validatebox" data-options="required:true"></td>
+                    <td><input name="faceHeight" value="160" type="text" class="easyui-validatebox" data-options="required:true"></td>
                 </tr>
                 <tr>
                     <td>经度</td>
                     <td><input name="lng" type="text" class="easyui-validatebox"></td>
                     <td>纬度</td>
                     <td><input name="lat" type="text" class="easyui-validatebox"></td>
-                </tr>
-                <tr>
-                    <td>状态</td>
-                    <td>
-                        <x:select name="status" class="easyui-combobox" type="dbStatus" data-options="width:160,height:29,editable:false,panelHeight:'auto'"/>
-                    </td>
                 </tr>
             </table>
         </form>
@@ -59,8 +57,8 @@
             textField : 'brandName'
         });
 
-        $('#cameraAddForm').form({
-            url : basePath + '/camera/add',
+        $('#deviceAddForm').form({
+            url : basePath + '/device/add',
             onSubmit : function() {
                 progressLoad();
                 var isValid = $(this).form('validate');
@@ -77,7 +75,7 @@
                     parent.$.modalDialog.openner_dataGrid.datagrid('reload');
                     parent.$.modalDialog.handler.dialog('close');
                 } else {
-                    var form = $('#cameraAddForm');
+                    var form = $('#deviceAddForm');
                     parent.$.messager.alert('错误', result.msg, 'error');
                 }
             }

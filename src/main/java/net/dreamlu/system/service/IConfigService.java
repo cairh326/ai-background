@@ -15,5 +15,10 @@ import java.io.Serializable;
  * @since 2019-08-19
  */
 public interface IConfigService extends IService<Config> {
+	/**
+	 * 根据名称获取参数配置
+	 * @param name 名称
+	 * @return config
+	 */
 	Config getByName(String name);
 }

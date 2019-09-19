@@ -305,11 +305,11 @@ INSERT INTO `t_resource` VALUES ('240', '列表', 'cameraBrand:dataGrid', '/came
 INSERT INTO `t_resource` VALUES ('241', '添加', 'cameraBrand:add', '/cameraBrand/add', 'ajax', '码流配置添加', 'glyphicon-plus', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
 INSERT INTO `t_resource` VALUES ('242', '编辑', 'cameraBrand:edit', '/cameraBrand/edit', 'ajax', '码流配置编辑', 'glyphicon-pencil', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
 INSERT INTO `t_resource` VALUES ('243', '删除', 'cameraBrand:delete', '/cameraBrand/delete', 'ajax', '码流配置删除', 'glyphicon-remove', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
-INSERT INTO `t_resource` VALUES ('244', '摄像头配置', 'camera:manager', '/camera/manager', null, '摄像头配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
-INSERT INTO `t_resource` VALUES ('245', '列表', 'camera:dataGrid', '/camera/dataGrid', 'ajax', '摄像头配置列表', 'glyphicon-th-list', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
-INSERT INTO `t_resource` VALUES ('246', '添加', 'camera:add', '/camera/add', 'ajax', '摄像头配置添加', 'glyphicon-plus', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
-INSERT INTO `t_resource` VALUES ('247', '编辑', 'camera:edit', '/camera/edit', 'ajax', '摄像头配置编辑', 'glyphicon-pencil', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
-INSERT INTO `t_resource` VALUES ('248', '删除', 'camera:delete', '/camera/delete', 'ajax', '摄像头配置删除', 'glyphicon-remove', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
+INSERT INTO `t_resource` VALUES ('244', '摄像头配置', 'device:manager', '/device/manager', null, '摄像头配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
+INSERT INTO `t_resource` VALUES ('245', '列表', 'device:dataGrid', '/device/dataGrid', 'ajax', '摄像头配置列表', 'glyphicon-th-list', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
+INSERT INTO `t_resource` VALUES ('246', '添加', 'device:add', '/device/add', 'ajax', '摄像头配置添加', 'glyphicon-plus', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
+INSERT INTO `t_resource` VALUES ('247', '编辑', 'device:edit', '/device/edit', 'ajax', '摄像头配置编辑', 'glyphicon-pencil', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
+INSERT INTO `t_resource` VALUES ('248', '删除', 'device:delete', '/device/delete', 'ajax', '摄像头配置删除', 'glyphicon-remove', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
 INSERT INTO `t_resource` VALUES ('249', '参数配置', 'config:manager', '/config/manager', null, '参数配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
 INSERT INTO `t_resource` VALUES ('250', '列表', 'config:dataGrid', '/config/dataGrid', 'ajax', '参数配置列表', 'glyphicon-th-list', '249', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
 INSERT INTO `t_resource` VALUES ('251', '添加', 'config:add', '/config/add', 'ajax', '参数配置添加', 'glyphicon-plus', '249', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
