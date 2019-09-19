@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50519
 File Encoding         : 65001
 
-Date: 2019-09-09 15:49:26
+Date: 2019-09-19 15:05:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `persistent_logins` (
 -- ----------------------------
 -- Records of persistent_logins
 -- ----------------------------
-INSERT INTO `persistent_logins` VALUES ('admin', 'C9TlXMjnD+ELejwk7Q5cpQ==', '2UtlLoGoii0MgRANs98a/g==', '2019-09-09 15:46:49');
+INSERT INTO `persistent_logins` VALUES ('admin', '3UGpM8INtcPSAl6gavOcrg==', 'OZFtp8hsROma+uI3SBCFVQ==', '2019-09-19 15:02:44');
 
 -- ----------------------------
 -- Table structure for t_admin
@@ -108,41 +108,12 @@ CREATE TABLE `t_box` (
   `binding_status` tinyint(2) DEFAULT NULL COMMENT '绑定状态',
   `bingding_time` datetime DEFAULT NULL COMMENT '绑定时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='本机配置';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='本机配置';
 
 -- ----------------------------
 -- Records of t_box
 -- ----------------------------
-INSERT INTO `t_box` VALUES ('1', '初始化名称', null, null, null, null, null, null, null, null, null, null, null, null, 'V20190909', '0', null);
-
--- ----------------------------
--- Table structure for t_camera
--- ----------------------------
-DROP TABLE IF EXISTS `t_camera`;
-CREATE TABLE `t_camera` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `code` varchar(30) NOT NULL COMMENT '编码',
-  `location_name` varchar(30) NOT NULL COMMENT '点位名称',
-  `brand_id` int(11) NOT NULL COMMENT '品牌',
-  `ip` varchar(20) NOT NULL COMMENT 'ip',
-  `user` varchar(20) NOT NULL COMMENT '用户名',
-  `passwd` varchar(20) NOT NULL COMMENT '密码',
-  `main_stream` varchar(300) NOT NULL COMMENT '主码流',
-  `sub_stream` varchar(300) NOT NULL COMMENT '辅码流',
-  `face_width` int(3) DEFAULT NULL COMMENT '人脸宽度',
-  `face_height` int(3) DEFAULT NULL COMMENT '人脸高度',
-  `lng` varchar(20) DEFAULT NULL COMMENT '经度',
-  `lat` varchar(20) DEFAULT NULL COMMENT '纬度',
-  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态[0:失效,1:正常]',
-  `is_online` tinyint(2) NOT NULL COMMENT '是否在线',
-  `heart_time` datetime DEFAULT NULL COMMENT '最后心跳',
-  `create_by` varchar(10) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(10) DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ind_camera_code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='摄像机配置';
+INSERT INTO `t_box` VALUES ('1', '系统初始化盒子', '', '0', '', '', '', '', '', '', '', '', '', '', 'V20190909', '0', null);
 
 -- ----------------------------
 -- Table structure for t_camera_brand
@@ -183,18 +154,47 @@ CREATE TABLE `t_config` (
   `update_by` varchar(10) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='参数配置';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='参数配置';
 
 -- ----------------------------
 -- Records of t_config
 -- ----------------------------
-INSERT INTO `t_config` VALUES ('1', 'platformIp', '', '平台ip', 'admin', '2019-09-07 19:24:29', null, null);
-INSERT INTO `t_config` VALUES ('2', 'platformUser', '', '平台登录用户', 'admin', '2019-09-07 19:25:04', null, null);
-INSERT INTO `t_config` VALUES ('3', 'platformPwd', '', '平台登录密码', 'admin', '2019-09-07 19:25:23', null, null);
-INSERT INTO `t_config` VALUES ('4', 'mqServerIp', '', 'MQ服务端ip', 'admin', '2019-09-07 19:26:08', null, null);
-INSERT INTO `t_config` VALUES ('5', 'mqServerPort', '', 'mq服务端端口', 'admin', '2019-09-07 19:26:37', null, null);
-INSERT INTO `t_config` VALUES ('6', 'mqServerUser', '', 'MQ服务端用户', 'admin', '2019-09-07 19:27:15', null, null);
-INSERT INTO `t_config` VALUES ('7', 'mqServerPwd', '', 'MQ服务端密码', 'admin', '2019-09-07 19:27:43', null, null);
+INSERT INTO `t_config` VALUES ('1', 'NetCardServiceIp', '192.168.10.170', '网卡服务器ip', 'admin', '2019-09-19 10:47:13', null, null);
+INSERT INTO `t_config` VALUES ('2', 'NetCardServicePort', '9090', '网卡服务端口', 'admin', '2019-09-19 10:48:05', null, null);
+INSERT INTO `t_config` VALUES ('3', 'MaxDeviceCount', '16', '最大设备数', 'admin', '2019-09-19 14:03:41', null, null);
+
+-- ----------------------------
+-- Table structure for t_device
+-- ----------------------------
+DROP TABLE IF EXISTS `t_device`;
+CREATE TABLE `t_device` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `code` varchar(30) NOT NULL COMMENT '设备序列号',
+  `type` varchar(30) NOT NULL COMMENT '设备类型',
+  `name` varchar(30) NOT NULL COMMENT '设备名称',
+  `brand_id` int(11) DEFAULT NULL COMMENT '设备品牌',
+  `ip` varchar(20) NOT NULL COMMENT '设备ip',
+  `user` varchar(20) DEFAULT NULL COMMENT '用户名',
+  `passwd` varchar(20) DEFAULT NULL COMMENT '密码',
+  `main_stream` varchar(300) DEFAULT NULL COMMENT '主码流',
+  `sub_stream` varchar(300) DEFAULT NULL COMMENT '辅码流',
+  `face_width` int(3) DEFAULT NULL COMMENT '人脸宽度',
+  `face_height` int(3) DEFAULT NULL COMMENT '人脸高度',
+  `lng` varchar(20) DEFAULT NULL COMMENT '经度',
+  `lat` varchar(20) DEFAULT NULL COMMENT '纬度',
+  `is_online` tinyint(2) NOT NULL COMMENT '是否在线',
+  `heart_time` datetime DEFAULT NULL COMMENT '最后心跳',
+  `create_by` varchar(10) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(10) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ind_camera_code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='设备配置';
+
+-- ----------------------------
+-- Records of t_device
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_net_card
@@ -212,12 +212,11 @@ CREATE TABLE `t_net_card` (
   `mac` varchar(100) DEFAULT NULL COMMENT 'mac地址',
   `mask` varchar(100) DEFAULT NULL COMMENT '子网掩码',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网卡信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网卡信息';
 
 -- ----------------------------
 -- Records of t_net_card
 -- ----------------------------
-INSERT INTO `t_net_card` VALUES ('1', 'eth0', 'static', '114.114.114.114', '', '192.168.10.1', '192.168.10.170', '1', '94:C6:91:38:0C:D1', '255.255.255.0');
 
 -- ----------------------------
 -- Table structure for t_organization
@@ -270,7 +269,7 @@ CREATE TABLE `t_resource` (
 -- ----------------------------
 -- Records of t_resource
 -- ----------------------------
-INSERT INTO `t_resource` VALUES ('1', '权限管理', '', '', null, '系统管理', 'glyphicon-th ', null, '0', '1', '1', '0', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
+INSERT INTO `t_resource` VALUES ('1', '权限管理', '', '', null, '系统管理', 'glyphicon-th ', null, '2', '1', '0', '0', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
 INSERT INTO `t_resource` VALUES ('11', '资源管理', '', '/resource/manager', 'ajax', '资源管理', 'glyphicon-list-alt', '1', '1', '1', '1', '0', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
 INSERT INTO `t_resource` VALUES ('12', '角色管理', '', '/role/manager', 'ajax', '角色管理', 'glyphicon-lock', '1', '2', '1', '1', '0', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
 INSERT INTO `t_resource` VALUES ('13', '用户管理', '', '/admin/manager', 'ajax', '用户管理', 'glyphicon-user', '1', '3', '1', '1', '0', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
@@ -292,33 +291,33 @@ INSERT INTO `t_resource` VALUES ('141', '列表', '', '/organization/treeGrid', 
 INSERT INTO `t_resource` VALUES ('142', '添加', 'organization:add', '/organization/add', 'ajax', '部门添加', 'glyphicon-plus', '14', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
 INSERT INTO `t_resource` VALUES ('143', '编辑', 'organization:edit', '/organization/edit', 'ajax', '部门编辑', 'glyphicon-pencil', '14', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
 INSERT INTO `t_resource` VALUES ('144', '删除', 'organization:delete', '/organization/delete', 'ajax', '部门删除', 'glyphicon-remove', '14', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
-INSERT INTO `t_resource` VALUES ('221', '系统管理', '', '', null, null, 'glyphicon-cog ', null, '3', '1', '0', '0', '2019-08-10 16:00:01', '2018-04-15 21:41:32');
+INSERT INTO `t_resource` VALUES ('221', '系统管理', '', '', null, null, 'glyphicon-cog ', null, '1', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:41:32');
 INSERT INTO `t_resource` VALUES ('226', '修改密码', 'admin:edit:pwd', '/admin/editPwdPage', 'ajax', null, 'glyphicon-warning-sign', null, '4', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
-INSERT INTO `t_resource` VALUES ('227', '登录日志', '', '/sysLog/manager', 'ajax', null, 'glyphicon-info-sign', '221', '3', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:47:58');
-INSERT INTO `t_resource` VALUES ('229', '系统图标', '', '/icons.html', 'ajax', null, 'glyphicon-picture', '221', '2', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:18');
-INSERT INTO `t_resource` VALUES ('235', '字典管理', 'sysDict:manager', '/sysDict/manager', null, '字典管理', 'glyphicon-list-alt ', '221', '1', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
+INSERT INTO `t_resource` VALUES ('227', '登录日志', '', '/sysLog/manager', 'ajax', null, 'glyphicon-info-sign', '221', '8', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:47:58');
+INSERT INTO `t_resource` VALUES ('229', '系统图标', '', '/icons.html', 'ajax', null, 'glyphicon-picture', '221', '7', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:18');
+INSERT INTO `t_resource` VALUES ('235', '字典管理', 'sysDict:manager', '/sysDict/manager', null, '字典管理', 'glyphicon-list-alt ', '221', '6', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
 INSERT INTO `t_resource` VALUES ('236', '列表', 'sysDict:dataGrid', '/sysDict/dataGrid', 'ajax', '资源列表', 'glyphicon-th-list', '235', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
 INSERT INTO `t_resource` VALUES ('237', '添加', 'sysDict:add', '/sysDict/add', 'ajax', '资源添加', 'glyphicon-plus', '235', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
 INSERT INTO `t_resource` VALUES ('238', '编辑', 'sysDict:edit', '/sysDict/edit', 'ajax', '资源编辑', 'glyphicon-pencil', '235', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
-INSERT INTO `t_resource` VALUES ('239', '码流配置', 'cameraBrand:manager', '/cameraBrand/manager', null, '码流配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
-INSERT INTO `t_resource` VALUES ('240', '列表', 'cameraBrand:dataGrid', '/cameraBrand/dataGrid', 'ajax', '码流配置列表', 'glyphicon-th-list', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
-INSERT INTO `t_resource` VALUES ('241', '添加', 'cameraBrand:add', '/cameraBrand/add', 'ajax', '码流配置添加', 'glyphicon-plus', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
-INSERT INTO `t_resource` VALUES ('242', '编辑', 'cameraBrand:edit', '/cameraBrand/edit', 'ajax', '码流配置编辑', 'glyphicon-pencil', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
-INSERT INTO `t_resource` VALUES ('243', '删除', 'cameraBrand:delete', '/cameraBrand/delete', 'ajax', '码流配置删除', 'glyphicon-remove', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
-INSERT INTO `t_resource` VALUES ('244', '摄像头配置', 'device:manager', '/device/manager', null, '摄像头配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
-INSERT INTO `t_resource` VALUES ('245', '列表', 'device:dataGrid', '/device/dataGrid', 'ajax', '摄像头配置列表', 'glyphicon-th-list', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
-INSERT INTO `t_resource` VALUES ('246', '添加', 'device:add', '/device/add', 'ajax', '摄像头配置添加', 'glyphicon-plus', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
-INSERT INTO `t_resource` VALUES ('247', '编辑', 'device:edit', '/device/edit', 'ajax', '摄像头配置编辑', 'glyphicon-pencil', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
-INSERT INTO `t_resource` VALUES ('248', '删除', 'device:delete', '/device/delete', 'ajax', '摄像头配置删除', 'glyphicon-remove', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
-INSERT INTO `t_resource` VALUES ('249', '参数配置', 'config:manager', '/config/manager', null, '参数配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
+INSERT INTO `t_resource` VALUES ('239', '摄像头码流配置', 'cameraBrand:manager', '/cameraBrand/manager', null, '摄像头码流配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
+INSERT INTO `t_resource` VALUES ('240', '列表', 'cameraBrand:dataGrid', '/cameraBrand/dataGrid', 'ajax', '摄像头码流配置列表', 'glyphicon-th-list', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
+INSERT INTO `t_resource` VALUES ('241', '添加', 'cameraBrand:add', '/cameraBrand/add', 'ajax', '摄像头码流配置添加', 'glyphicon-plus', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
+INSERT INTO `t_resource` VALUES ('242', '编辑', 'cameraBrand:edit', '/cameraBrand/edit', 'ajax', '摄像头码流配置编辑', 'glyphicon-pencil', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
+INSERT INTO `t_resource` VALUES ('243', '删除', 'cameraBrand:delete', '/cameraBrand/delete', 'ajax', '摄像头码流配置删除', 'glyphicon-remove', '239', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
+INSERT INTO `t_resource` VALUES ('244', '设备配置', 'device:manager', '/device/manager', null, '设备配置', 'glyphicon-list-alt ', '221', '5', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
+INSERT INTO `t_resource` VALUES ('245', '列表', 'device:dataGrid', '/device/dataGrid', 'ajax', '设备配置列表', 'glyphicon-th-list', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
+INSERT INTO `t_resource` VALUES ('246', '添加', 'device:add', '/device/add', 'ajax', '设备配置添加', 'glyphicon-plus', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
+INSERT INTO `t_resource` VALUES ('247', '编辑', 'device:edit', '/device/edit', 'ajax', '设备配置编辑', 'glyphicon-pencil', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
+INSERT INTO `t_resource` VALUES ('248', '删除', 'device:delete', '/device/delete', 'ajax', '设备配置删除', 'glyphicon-remove', '244', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
+INSERT INTO `t_resource` VALUES ('249', '参数配置', 'config:manager', '/config/manager', null, '参数配置', 'glyphicon-list-alt ', '221', '3', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
 INSERT INTO `t_resource` VALUES ('250', '列表', 'config:dataGrid', '/config/dataGrid', 'ajax', '参数配置列表', 'glyphicon-th-list', '249', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
 INSERT INTO `t_resource` VALUES ('251', '添加', 'config:add', '/config/add', 'ajax', '参数配置添加', 'glyphicon-plus', '249', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:45');
 INSERT INTO `t_resource` VALUES ('252', '编辑', 'config:edit', '/config/edit', 'ajax', '参数配置编辑', 'glyphicon-pencil', '249', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
 INSERT INTO `t_resource` VALUES ('253', '删除', 'config:delete', '/config/delete', 'ajax', '参数配置删除', 'glyphicon-remove', '249', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-03-24 04:33:21');
-INSERT INTO `t_resource` VALUES ('254', '网卡配置', 'netCard:manager', '/netCard/manager', null, '网卡配置', 'glyphicon-list-alt ', '221', '4', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
+INSERT INTO `t_resource` VALUES ('254', '网络配置', 'netCard:manager', '/netCard/manager', null, '网络配置', 'glyphicon-list-alt ', '221', '1', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:26');
 INSERT INTO `t_resource` VALUES ('255', '列表', 'netCard:dataGrid', '/netCard/dataGrid', 'ajax', '网卡配置列表', 'glyphicon-th-list', '254', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:59:40');
 INSERT INTO `t_resource` VALUES ('256', '编辑', 'netCard:edit', '/netCard/edit', 'ajax', '网卡配置编辑', 'glyphicon-pencil', '254', '0', '1', '1', '1', '2019-08-10 16:00:01', '2018-04-15 21:32:55');
-INSERT INTO `t_resource` VALUES ('257', '本机配置', '', '/boxEdit.html', 'ajax', null, 'glyphicon-list-alt', '221', '2', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:18');
+INSERT INTO `t_resource` VALUES ('257', '平台配置', '', '/boxEdit.html', 'ajax', null, 'glyphicon-list-alt', '221', '2', '1', '1', '0', '2019-08-10 16:00:01', '2018-04-15 21:48:18');
 
 -- ----------------------------
 -- Table structure for t_role
@@ -460,7 +459,7 @@ CREATE TABLE `t_sys_dict` (
   `seq` tinyint(2) NOT NULL DEFAULT '0' COMMENT '排序',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='字典';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='字典';
 
 -- ----------------------------
 -- Records of t_sys_dict
@@ -485,6 +484,9 @@ INSERT INTO `t_sys_dict` VALUES ('17', 'online', '摄像机是否在线-在线',
 INSERT INTO `t_sys_dict` VALUES ('18', 'online', '摄像机是否在线-不在线', '0', '不在线', '0', '2019-08-10 16:00:01');
 INSERT INTO `t_sys_dict` VALUES ('19', 'bindingStatus', '盒子绑定状态-已绑定', '1', '已绑定', '1', '2019-09-09 15:37:46');
 INSERT INTO `t_sys_dict` VALUES ('20', 'bindingStatus', '盒子绑定状态-未绑定', '0', '未绑定', '0', '2019-09-09 15:38:22');
+INSERT INTO `t_sys_dict` VALUES ('21', 'deviceType', '设备类型-摄像头', 'camera', '摄像头', '1', '2019-09-19 10:30:15');
+INSERT INTO `t_sys_dict` VALUES ('22', 'deviceType', '设备类型-门禁机', 'access', '门禁机', '2', '2019-09-19 10:30:43');
+INSERT INTO `t_sys_dict` VALUES ('23', 'deviceType', '设备类型-请选择设备类型', '', '请选择设备类型', '0', '2019-09-19 11:26:07');
 
 -- ----------------------------
 -- Table structure for t_sys_log
@@ -500,5 +502,8 @@ CREATE TABLE `t_sys_log` (
   `client_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '客户端ip',
   `create_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志';
 
+-- ----------------------------
+-- Records of t_sys_log
+-- ----------------------------
