@@ -169,13 +169,16 @@ INSERT INTO `t_config` VALUES ('3', 'MaxDeviceCount', '16', '最大设备数', '
 DROP TABLE IF EXISTS `t_device`;
 CREATE TABLE `t_device` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `code` varchar(30) NOT NULL COMMENT '设备序列号',
+  `code` varchar(40) NOT NULL COMMENT '设备序列号',
   `type` varchar(30) NOT NULL COMMENT '设备类型',
   `name` varchar(30) NOT NULL COMMENT '设备名称',
   `brand_id` int(11) DEFAULT NULL COMMENT '设备品牌',
   `ip` varchar(20) NOT NULL COMMENT '设备ip',
   `user` varchar(20) DEFAULT NULL COMMENT '用户名',
   `passwd` varchar(20) DEFAULT NULL COMMENT '密码',
+  `open_flag` tinyint(2) DEFAULT NULL COMMENT '开门标志',
+  `open_code` varchar(30) DEFAULT NULL COMMENT '开门设备序列号',
+  `open_channel` varchar(10) DEFAULT NULL COMMENT '开门通道',
   `main_stream` varchar(300) DEFAULT NULL COMMENT '主码流',
   `sub_stream` varchar(300) DEFAULT NULL COMMENT '辅码流',
   `face_width` int(3) DEFAULT NULL COMMENT '人脸宽度',
@@ -190,7 +193,7 @@ CREATE TABLE `t_device` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ind_camera_code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='设备配置';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='设备配置';
 
 -- ----------------------------
 -- Records of t_device
@@ -487,6 +490,8 @@ INSERT INTO `t_sys_dict` VALUES ('20', 'bindingStatus', '盒子绑定状态-未�
 INSERT INTO `t_sys_dict` VALUES ('21', 'deviceType', '设备类型-摄像头', 'camera', '摄像头', '1', '2019-09-19 10:30:15');
 INSERT INTO `t_sys_dict` VALUES ('22', 'deviceType', '设备类型-门禁机', 'access', '门禁机', '2', '2019-09-19 10:30:43');
 INSERT INTO `t_sys_dict` VALUES ('23', 'deviceType', '设备类型-请选择设备类型', '', '请选择设备类型', '0', '2019-09-19 11:26:07');
+INSERT INTO `t_sys_dict` VALUES ('24', 'openFlag', '开门标志-启用', '1', '启用', '0', '2019-09-19 16:44:19');
+INSERT INTO `t_sys_dict` VALUES ('25', 'openFlag', '开门标志-不启用', '0', '不启用', '1', '2019-09-19 16:44:46');
 
 -- ----------------------------
 -- Table structure for t_sys_log

@@ -63,6 +63,18 @@ public class Device implements Serializable {
      * 密码
      */
     private String passwd;
+	/**
+	 * 开门标志
+	 */
+	private Integer openFlag;
+	/**
+	 * 开门设备序列号
+	 */
+	private String openCode;
+	/**
+	 * 开门通道
+	 */
+	private String openChannel;
 
     /**
      * 主码流

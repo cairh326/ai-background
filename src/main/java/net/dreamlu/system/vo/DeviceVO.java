@@ -14,6 +14,10 @@ public class DeviceVO {
 	private String ip;
 	private String user;
 	private String passwd;
+	private Integer openFlag;
+	private String openSerialNo;
+	private String openChannel;
+
 	private String mainStream;
 	private String faceWidth;
 	private String faceHeight;

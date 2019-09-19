@@ -22,6 +22,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import javax.validation.Valid;
 import net.dreamlu.common.base.BaseController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * 摄像机配置 前端控制器
@@ -78,6 +81,9 @@ public class DeviceController extends BaseController {
 			if(StringUtils.isEmpty(device.getUser())
 			   	||StringUtils.isEmpty(device.getPasswd())){
 				return "设备类型为摄像头,用户名及密码非空";
+			}
+			if(device.getOpenFlag() == 1 && StringUtils.isEmpty(device.getOpenChannel())){
+				return "设备类型为摄像头并启用开门,开门通道非空";
 			}
 		}
 		if(isNew){
@@ -141,4 +147,19 @@ public class DeviceController extends BaseController {
 		}
         return status(deviceService.updateById(device));
     }
+
+	/**
+	 * 摄像机品牌选择
+	 */
+	@PostMapping("/select")
+	@ResponseBody
+	public List<Device> select(){
+		List<Device> deviceList = new ArrayList<>();
+		Device nullDevice = new Device();
+		nullDevice.setCode("");
+		nullDevice.setName("请选择开门设备");
+		deviceList.add(nullDevice);
+		deviceList.addAll(deviceService.list());
+		return deviceList;
+	}
 }

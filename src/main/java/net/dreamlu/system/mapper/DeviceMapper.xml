@@ -13,6 +13,9 @@
         <result column="user" property="user" />
         <result column="passwd" property="passwd" />
         <result column="main_stream" property="mainStream" />
+        <result column="open_flag" property="openFlag" />
+        <result column="open_code" property="openCode" />
+        <result column="open_channel" property="openChannel" />
         <result column="sub_stream" property="subStream" />
         <result column="face_width" property="faceWidth" />
         <result column="face_height" property="faceHeight" />
@@ -27,7 +30,7 @@
     </resultMap>
 
     <update id="updateHeart">
-        update t_camera
+        update t_device
         set is_online = 1,heart_time = now()
         where code = #{code};
     </update>
@@ -35,10 +38,14 @@
 
     <resultMap id="DeviceVoResultMap" type="net.dreamlu.system.vo.DeviceVO">
         <result column="code" property="serialNo" />
+        <result column="type" property="type" />
         <result column="brand_code" property="brandCode" />
         <result column="ip" property="ip" />
         <result column="user" property="user" />
         <result column="passwd" property="passwd" />
+        <result column="open_flag" property="openFlag" />
+        <result column="open_code" property="openSerialNo" />
+        <result column="open_channel" property="openChannel" />
         <result column="main_stream" property="mainStream" />
         <result column="face_width" property="faceWidth" />
         <result column="face_height" property="faceHeight" />
@@ -47,10 +54,14 @@
     <select id="getDeviceList" resultMap="DeviceVoResultMap">
         SELECT
             a.`code`,
+            a.`type`,
             b.brand_code,
             a.ip,
             a.user,
             a.passwd,
+            a.open_flag,
+            a.open_code,
+            a.open_channel,
             a.main_stream,
             a.face_width,
             a.face_height

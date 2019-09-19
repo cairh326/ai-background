@@ -7,6 +7,7 @@ import net.dreamlu.system.model.CameraBrand;
 import net.dreamlu.system.service.ICameraBrandService;
 import net.dreamlu.system.service.IDeviceService;
 import net.dreamlu.system.util.CommonConstant;
+import net.dreamlu.system.util.StringUtils;
 import net.dreamlu.system.vo.DeviceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,11 +37,22 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device>
 			CameraBrand cameraBrand = brandService.getById(entity.getBrandId());
 			entity.setMainStream(String.format(cameraBrand.getMainStream(), entity.getUser(), entity.getPasswd(), entity.getIp()));
 			entity.setSubStream(String.format(cameraBrand.getSubStream(), entity.getUser(), entity.getPasswd(), entity.getIp()));
+			if(entity.getOpenFlag() == 1){
+				if(StringUtils.isEmpty(entity.getOpenCode())){
+					entity.setOpenCode(entity.getCode());
+				}
+			}else{
+				entity.setOpenCode("");
+				entity.setOpenChannel("");
+			}
 		}else{
 			entity.setBrandId(null);
 			entity.setMainStream("");
 			entity.setSubStream("");
+			entity.setOpenCode("");
+			entity.setOpenChannel("");
 		}
+
 	}
 
 	/**

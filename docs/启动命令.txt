@@ -1,0 +1,1 @@
+/usr/bin/nohup java -Djava.security.egd=file:/dev/./urandom -jar /home/face/apps/dream-security-1.0.0.jar --spring.profiles.active=prod --server.port=8080 >/home/face/apps/dream.out 2>&1 &

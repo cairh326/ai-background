@@ -26,6 +26,16 @@
                     <td><input name="passwd" type="text" class="easyui-validatebox"></td>
                 </tr>
                 <tr>
+                    <td>开门标志</td>
+                    <td><x:select name="openFlag" class="easyui-combobox" type="openFlag" data-options="width:160,height:29,editable:false,panelHeight:'auto'"/></td>
+                </tr>
+                <tr>
+                    <td>开门设备序列号</td>
+                    <td><select id="openCodeSelect" name="openCode" class="easyui-combobox"></select></td>
+                    <td>开门通道</td>
+                    <td><input name="openChannel" type="text" class="easyui-validatebox"></td>
+                </tr>
+                <tr>
                     <td>主码流</td>
                     <td colspan = "3"><input name="mainStream" type="text" readonly="readonly" style="width: 420px;" class="easyui-validatebox"></td>
                 </tr>
@@ -55,6 +65,12 @@
             url: basePath + '/cameraBrand/select',
             valueField : 'brandId',
             textField : 'brandName'
+        });
+
+        $('#openCodeSelect').combobox({
+            url: basePath + '/device/select',
+            valueField : 'code',
+            textField : 'name'
         });
 
         $('#deviceAddForm').form({
