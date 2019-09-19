@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class DeviceVO {
 	private String serialNo;
+	private String type;
 	private String brandCode;
 	private String ip;
 	private String user;
